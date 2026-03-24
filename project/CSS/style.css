@@ -1,0 +1,53 @@
+@font-face {
+    font-family: Protest;
+    src: url(../FONT/protest/Protest\ Demo.otf);
+}
+
+body {
+    background-image: url(../IMG/Space.webp);
+    background-size: cover;
+
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0;
+}
+
+img {
+    width: 100%;
+}
+
+#RotatingEarth {
+    position: absolute;
+    top: 5%;
+    right: 12%;
+
+    height: 90%;
+    width: auto;
+}
+
+/*********************************************************
+**********************************************************
+*************************HOMEPAGE*************************
+**********************************************************
+*********************************************************/
+
+#Homepage {
+    width: 100%;
+    height: 100%;
+}
+
+#HomepageInputGrid {
+    color: white;
+    font-family: Protest;
+}
+
+#HomepageInputGridHeader {
+    font-size: 5vw;
+}
+
+.HomepageInputGridText {
+    font-size: 3vw;
+    text-align: center;
+    width: 30%;
+}
