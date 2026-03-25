@@ -1,0 +1,4 @@
+
+function showNextScreen(currentElement, nextElement) {
+
+}
