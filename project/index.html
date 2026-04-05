@@ -23,13 +23,18 @@
     </div>
 
     <div id="Options">
+        <img class="ReturnButton" onclick="showNextScreen('Options', 'Homepage')" src="./IMG/Return.png" alt="Return">
         <div id="OptionsInputGrid">
             <p id="OptionsInputGridHeader">OPTIONEN</p>
             <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">VIDEO</p>
             <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">AUDIO</p>
             <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">KONTO</p>
         </div>
-        <div id="OptionsSetArea"></div>
+        <div id="OptionsSetArea">
+            <div id="OptionsVideoArea"></div>
+            <div id="OptionsAudioArea"></div>
+            <div id="OptionsKontoArea"></div>
+        </div>
     </div>
 
     <div id="Rules"></div>

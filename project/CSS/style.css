@@ -25,6 +25,7 @@ img {
     height: 90%;
     width: auto;
     z-index: -1;
+    transition: all 2s;
 }
 
 #RotatingMoon {
@@ -35,6 +36,36 @@ img {
     height: 10%;
     width: auto;
     z-index: -1;
+    transition: all 2s;
+}
+
+.ReturnButton {
+    position: absolute;
+    width: 10%;
+}
+
+/************************************
+*************************************
+*************SCROLLBAR***************
+*************************************
+************************************/
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(0, 0, 0, 0);
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #0e1c38, #142953);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #0e1c38, #1a366d);
 }
 
 /*********************************************************
@@ -112,6 +143,25 @@ img {
     width: 60%;
     height: auto;
     background-color: #0a142899;
+    overflow-y: scroll;
+}
+
+#OptionsVideoArea {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#OptionsAudioArea {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#OptionsKontoArea {
+    position: absolute;
+    width: 100%;
+    height: 100%;
 }
 
 /*********************************************************
