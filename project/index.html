@@ -11,17 +11,26 @@
 <body>
     
     <img id="RotatingEarth" src="./IMG/Earth.gif" alt="EarthSpinning">
+    <img id="RotatingMoon" src="./IMG/Moon.gif" alt="MoonSpinning">
 
     <div id="Homepage">
         <div id="HomepageInputGrid">
             <p id="HomepageInputGridHeader">TERRACHECK</p>
-            <p class="HomepageInputGridText">SPIELEN</p>
-            <p class="HomepageInputGridText">OPTIONEN</p>
-            <p class="HomepageInputGridText">REGELN</p>
+            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', '')">SPIELEN</p>
+            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Options')">OPTIONEN</p>
+            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">REGELN</p>
         </div>
     </div>
 
-    <div id="Options"></div>
+    <div id="Options">
+        <div id="OptionsInputGrid">
+            <p id="OptionsInputGridHeader">OPTIONEN</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">VIDEO</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">AUDIO</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">KONTO</p>
+        </div>
+        <div id="OptionsSetArea"></div>
+    </div>
 
     <div id="Rules"></div>
 </body>
