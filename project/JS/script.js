@@ -19,6 +19,14 @@ function movePlanets(element) {
         moon.style.height = '15%'
         moon.style.top = '2%'
         moon.style.left = '40%' 
+    } else if(element == 'Rules') {
+        earth.style.height = '40%'
+        earth.style.top = '0%'
+        earth.style.right = '7%'
+
+        moon.style.height = '15%'
+        moon.style.top = '70%'
+        moon.style.left = '25%' 
     }
 
 }
@@ -32,3 +40,40 @@ function showNextScreen(currentElement, nextElement) {
 
     movePlanets(nextElement)
 }
+
+/*********************************************************
+**********************************************************
+**************************RULES***************************
+**********************************************************
+*********************************************************/
+
+let boxes = document.querySelectorAll(".Box");
+let current = 0;
+let isAnimating = false;
+
+function updateBoxes() {
+    boxes.forEach((box, i) => {
+        box.style.transform = `translateY(${(i - current) * 100}vh)`;
+    });
+}
+
+updateBoxes();
+
+window.addEventListener("wheel", (e) => {
+    if (isAnimating) return;
+
+    if (e.deltaY > 0 && current < boxes.length - 1) {
+        current++;
+    } else if (e.deltaY < 0 && current > 0) {
+        current--;
+    } else {
+        return;
+    }
+
+    isAnimating = true;
+    updateBoxes();
+
+    setTimeout(() => {
+        isAnimating = false;
+    }, 600);
+});
