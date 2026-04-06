@@ -35,6 +35,14 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
         moon.style.height = '15%'
         moon.style.top = '7%'
         moon.style.left = '-3%' 
+    } else if(element == 'GameScreen') {
+        earth.style.height = '70%'
+        earth.style.top = '35%'
+        earth.style.right = '120%' 
+
+        moon.style.height = '15%'
+        moon.style.top = '7%'
+        moon.style.left = '-40%' 
     }
 
 }
@@ -134,15 +142,16 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">10</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">20</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">30</p>
-                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 1)" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
-                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 1)" style="grid-column: 1/3;">Eingabe</p>
-                <img id="GameModeOptionsContinue" src="./IMG/Return.png" alt="Weiter">
+                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
+                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3;">Eingabe</p>
+                <img id="GameModeOptionsContinue" onclick="showNextScreen('GameMode', 'GameScreen'), generateIndividualMode(finalGameMode)" src="./IMG/Return.png" alt="Weiter">
             </div>
             `  
         
     } 
 }
 
+let finalAmount = 0;
 let amountChoosen = false;
 function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
     if(amountChoosen) { 
@@ -153,10 +162,12 @@ function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
         amountChoosen = false;
     }
 
+    finalAmount = amount
     element.style.boxShadow = "inset 0px 0px 15px red"
     amountChoosen = true;
 }
 
+let finalGameMode = ""
 let gameModeChoosen = false;
 function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
     if(gameModeChoosen) {
@@ -167,6 +178,43 @@ function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
         gameModeChoosen = false;
     }
 
+    finalGameMode = gameMode
     element.style.boxShadow = "inset 0px 0px 15px red"
     gameModeChoosen = true;
+}
+
+/*********************************************************
+**********************************************************
+***************GAMESCREEN-CHOOSE/INPUT********************
+**********************************************************
+*********************************************************/
+
+let gameScreen = document.getElementById('ActualGameScreen')
+
+function generateIndividualMode(modeType) {
+    if(modeType == "Choose") {
+        gameScreen.innerHTML = 
+            `
+            <div id="GameScreenHeader"><p id="GameScreenHeaderText">0 Pkt.</p></div>
+
+            <div id="GameScreenChooseGrid">
+                <img id="GameScreenCountryFlag" src="./IMG/Austria.png" alt="Austria">
+                <p class="GameScreenChooseAnswer">Berlin</p>
+                <p class="GameScreenChooseAnswer">Prag</p>
+                <p class="GameScreenChooseAnswer">Wien</p>
+                <p class="GameScreenChooseAnswer">Ljubljana</p>
+                <p class="GameScreenChooseAnswer">Bern</p>
+                <p class="GameScreenChooseAnswer">Bratislava</p>
+                <p class="GameScreenChooseAnswer">Rom</p>
+                <p class="GameScreenChooseAnswer">Keine</p>
+            </div>
+            `
+    }
+} 
+
+function chooseAnswer() {
+    gameScreen.innerHTML += 
+        `
+        
+        `
 }
