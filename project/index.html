@@ -16,7 +16,7 @@
     <div id="Homepage">
         <div id="HomepageInputGrid">
             <p id="HomepageInputGridHeader">TERRACHECK</p>
-            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', '')">SPIELEN</p>
+            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'GameMode')">SPIELEN</p>
             <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Options')">OPTIONEN</p>
             <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">REGELN</p>
         </div>
@@ -26,9 +26,9 @@
         <img class="ReturnButton" onclick="showNextScreen('Options', 'Homepage')" src="./IMG/Return.png" alt="Return">
         <div id="OptionsInputGrid">
             <p id="OptionsInputGridHeader">OPTIONEN</p>
-            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">VIDEO</p>
-            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">AUDIO</p>
-            <p class="OptionsInputGridText" onclick="showNextScreen('Options', '')">KONTO</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('', '')">VIDEO</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('', '')">AUDIO</p>
+            <p class="OptionsInputGridText" onclick="showNextScreen('', '')">KONTO</p>
         </div>
         <div id="OptionsSetArea">
             <div id="OptionsVideoArea"></div>
@@ -40,9 +40,23 @@
     <div id="Rules">
         <img class="ReturnButton" onclick="showNextScreen('Rules', 'Homepage')" src="./IMG/Return.png" alt="Return">
         <div id="RulesBoxArea">
-            <section class="Box Box1">Box 1</section>
-            <section class="Box Box2">Box 2</section>
-            <section class="Box Box3">Box 3</section>
+            <section class="Box">Box 1</section>
+            <section class="Box">Box 2</section>
+            <section class="Box">Box 3</section>
+        </div>
+    </div>
+
+    <div id="GameMode">
+        <img class="ReturnButton" onclick="showNextScreen('GameMode', 'Homepage')" src="./IMG/Return.png" alt="Return">
+        <div id="GameModeGrid">
+            <div class="GameModeMaps MapWorld"></div>
+            <div class="GameModeMaps MapEurope"></div>
+            <div class="GameModeMaps MapAsia"></div>
+            <div class="GameModeMaps MapAfrica"></div>
+            <div class="GameModeMaps MapNothAmerica"></div>
+            <div class="GameModeMaps MapSouthAmerica"></div>
+            <div class="GameModeMaps MapAustralia"></div>
+            <div class="GameModeMaps Map"></div>
         </div>
     </div>
 </body>

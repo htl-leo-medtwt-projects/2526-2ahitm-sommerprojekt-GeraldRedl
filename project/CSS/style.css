@@ -100,6 +100,12 @@ img {
     text-align: center;
     width: 30%;
     background-color: #0a142899;
+    transition: text-shadow 0.4s;
+}
+
+.HomepageInputGridText:hover {
+    cursor: pointer;
+    text-shadow: 0px 0px 15px white;
 }
 
 /*********************************************************
@@ -133,6 +139,12 @@ img {
     text-align: center;
     width: 20%;
     background-color: #0a142899;
+    transition: text-shadow 0.4s;
+}
+
+.OptionsInputGridText:hover {
+    cursor: pointer;
+    text-shadow: 0px 0px 15px white;
 }
 
 #OptionsSetArea {
@@ -197,9 +209,39 @@ img {
   display: flex;
   align-items: center;
   justify-content: center;
+  background-color: #0a142899; 
+  color: white;
   transition: transform 0.6s ease;
 }
 
-.Box1 { background: #0a142899; }
-.Box2 { background: #0a142899; }
-.Box3 { background: #0a142899; }
+/*********************************************************
+**********************************************************
+************************GAMEMODE**************************
+**********************************************************
+*********************************************************/
+
+#GameMode {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    visibility: hidden;
+}
+
+#GameModeGrid {
+    position: absolute;
+    top: 2vw;
+    bottom: 2vw;
+    left: 2vw;
+    right: 2vw;
+
+    width: auto;
+    height: auto;
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.7vw;
+}
+
+#GameModeGrid div {
+    background-color: #0a142899;
+}
