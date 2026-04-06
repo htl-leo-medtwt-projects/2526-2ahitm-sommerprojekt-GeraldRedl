@@ -59,6 +59,35 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
 
 /*********************************************************
 **********************************************************
+************************OPTIONEN**************************
+**********************************************************
+*********************************************************/
+
+let optionsArea = document.getElementById('OptionsSetSetArea')
+
+function generateOptionsVideo() {
+    optionsArea.innerHTML = 
+        `
+        <p>VIDEO EINSTELLUNG ODER SO</p>
+        `
+}
+
+function generateOptionsAudio() {
+    optionsArea.innerHTML = 
+        `
+        <p>AUDIO EINSTELLUNG ODER SO</p>
+        `
+}
+
+function generateOptionsKonto() {
+    optionsArea.innerHTML = 
+        `
+        <p>KONTO EINSTELLUNG ODER SO</p>
+        `
+}
+
+/*********************************************************
+**********************************************************
 **************************RULES***************************
 **********************************************************
 *********************************************************/
@@ -199,14 +228,14 @@ function generateIndividualMode(modeType) {
 
             <div id="GameScreenChooseGrid">
                 <img id="GameScreenCountryFlag" src="./IMG/Austria.png" alt="Austria">
-                <p class="GameScreenChooseAnswer">Berlin</p>
-                <p class="GameScreenChooseAnswer">Prag</p>
-                <p class="GameScreenChooseAnswer">Wien</p>
-                <p class="GameScreenChooseAnswer">Ljubljana</p>
-                <p class="GameScreenChooseAnswer">Bern</p>
-                <p class="GameScreenChooseAnswer">Bratislava</p>
-                <p class="GameScreenChooseAnswer">Rom</p>
-                <p class="GameScreenChooseAnswer">Keine</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Berlin</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Prag</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Wien</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Ljubljana</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Bern</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Bratislava</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Rom</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Keine</p>
             </div>
             `
     }
@@ -215,6 +244,8 @@ function generateIndividualMode(modeType) {
 function chooseAnswer() {
     gameScreen.innerHTML += 
         `
-        
+        <div id="GameScreenAnswerResult">
+            <p>FALSCH!</p>
+        </div>
         `
 }
