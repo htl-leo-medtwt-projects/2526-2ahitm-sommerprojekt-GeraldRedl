@@ -49,14 +49,14 @@
     <div id="GameMode">
         <img class="ReturnButton" onclick="showNextScreen('GameMode', 'Homepage')" src="./IMG/Return.png" alt="Return">
         <div id="GameModeGrid">
-            <div class="GameModeMaps MapWorld"></div>
-            <div class="GameModeMaps MapEurope"></div>
-            <div class="GameModeMaps MapAsia"></div>
-            <div class="GameModeMaps MapAfrica"></div>
-            <div class="GameModeMaps MapNothAmerica"></div>
-            <div class="GameModeMaps MapSouthAmerica"></div>
-            <div class="GameModeMaps MapAustralia"></div>
-            <div class="GameModeMaps Map"></div>
+            <div class="GameModeMaps MapWorld" onclick="generateGameModeOptions(this, 0)"></div>
+            <div class="GameModeMaps MapEurope" onclick="generateGameModeOptions(this, 1)"></div>
+            <div class="GameModeMaps MapAsia" onclick="generateGameModeOptions(this, 2)"></div>
+            <div class="GameModeMaps MapAfrica" onclick="generateGameModeOptions(this, 3)"></div>
+            <div class="GameModeMaps MapNorthAmerica" onclick="generateGameModeOptions(this, 4)"></div>
+            <div class="GameModeMaps MapSouthAmerica" onclick="generateGameModeOptions(this, 5)"></div>
+            <div class="GameModeMaps MapAustralia" onclick="generateGameModeOptions(this, 6)"></div>
+            <div class="GameModeMaps MapSuprise" onclick="generateGameModeOptions(this, 7)"></div>
         </div>
     </div>
 </body>
