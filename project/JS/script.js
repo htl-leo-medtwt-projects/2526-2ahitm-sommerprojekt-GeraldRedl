@@ -96,13 +96,13 @@ window.addEventListener("wheel", (e) => { // EvenListener für das Wheel
 let mapImages = ['./Img/World.png', './Img/Europe.png', './Img/Asia.png', './Img/Africa.png', './Img/NorthAmerica.png', './Img/SouthAmerica.png', './Img/Australia.png']
 
 function generateMaps() { // Generiert die einzelnen Maps für die Auswahl
-    document.querySelector('.MapWorld').innerHTML = `<img src="${mapImages[0]}" alt="${mapImages[0]}">`
-    document.querySelector('.MapEurope').innerHTML = `<img src="${mapImages[1]}" alt="${mapImages[1]}">`
-    document.querySelector('.MapAsia').innerHTML = `<img src="${mapImages[2]}" alt="${mapImages[2]}">`
-    document.querySelector('.MapAfrica').innerHTML = `<img src="${mapImages[3]}" alt="${mapImages[3]}">`
-    document.querySelector('.MapNorthAmerica').innerHTML = `<img src="${mapImages[4]}" alt="${mapImages[4]}">`
-    document.querySelector('.MapSouthAmerica').innerHTML = `<img src="${mapImages[5]}" alt="${mapImages[54]}">`
-    document.querySelector('.MapAustralia').innerHTML = `<img src="${mapImages[6]}" alt="${mapImages[6]}">`
+    document.querySelector('.MapWorld').innerHTML = `<img src="${mapImages[0]}" alt="${mapImages[0]}"><p class="MapLabel">WELT</p>`
+    document.querySelector('.MapEurope').innerHTML = `<img src="${mapImages[1]}" alt="${mapImages[1]}"><p class="MapLabel">EUROPA</p>` 
+    document.querySelector('.MapAsia').innerHTML = `<img src="${mapImages[2]}" alt="${mapImages[2]}"><p class="MapLabel">ASIEN</p>`
+    document.querySelector('.MapAfrica').innerHTML = `<img src="${mapImages[3]}" alt="${mapImages[3]}"><p class="MapLabel">AFRIKA</p>`
+    document.querySelector('.MapNorthAmerica').innerHTML = `<img src="${mapImages[4]}" alt="${mapImages[4]}"><p class="MapLabel">NORD AMERIKA</p>`
+    document.querySelector('.MapSouthAmerica').innerHTML = `<img src="${mapImages[5]}" alt="${mapImages[54]}"><p class="MapLabel">SÜD AMERIKA</p>`
+    document.querySelector('.MapAustralia').innerHTML = `<img src="${mapImages[6]}" alt="${mapImages[6]}"> <p class="MapLabel">AUSTRALIEN</p>`
     document.querySelector('.MapSuprise').innerHTML = `<img src="./IMG/Suprise.png" alt="Suprise.png">`
 }
 
@@ -114,7 +114,7 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
     if(index != rotatedElement) {
         if(alreadyRotated) { // Dreht die Boxen in ihre Originalposition
             let allMaps = document.querySelectorAll('.GameModeMaps')
-            allMaps.forEach((GameModeMaps, i) => {
+            allMaps.forEach((GameModeMaps) => {
                 GameModeMaps.style.transform = 'rotateY(0deg)';
                 GameModeMaps.innerHTML = ""
             });
@@ -127,17 +127,46 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
         alreadyRotated = true;
         rotatedElement = index;
 
-        element.innerHTML += 
+        element.innerHTML += // Generiert die Auswahloptionen
             `
             <div id="GameModeOptions">
-                <p>ALLE</p> 
-                <p>10</p>
-                <p>20</p>
-                <p>30</p>
-                <p style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
-                <p style="grid-column: 1/3;">Eingabe</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">ALLE</p> 
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">10</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">20</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">30</p>
+                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 1)" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
+                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 1)" style="grid-column: 1/3;">Eingabe</p>
+                <img id="GameModeOptionsContinue" src="./IMG/Return.png" alt="Weiter">
             </div>
-            `
+            `  
         
+    } 
+}
+
+let amountChoosen = false;
+function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
+    if(amountChoosen) { 
+        let allAmounts = document.querySelectorAll('.GameModeOptionsAmount')
+        allAmounts.forEach((GameModeOptionsAmount) => {
+            GameModeOptionsAmount.style.boxShadow = '0px 0px 0px';
+        });
+        amountChoosen = false;
     }
+
+    element.style.boxShadow = "inset 0px 0px 15px red"
+    amountChoosen = true;
+}
+
+let gameModeChoosen = false;
+function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
+    if(gameModeChoosen) {
+        let allModes = document.querySelectorAll('.GameModeOptionsMode')
+        allModes.forEach((GameModeOptionsMode) => {
+            GameModeOptionsMode.style.boxShadow = '0px 0px 0px';
+        });
+        gameModeChoosen = false;
+    }
+
+    element.style.boxShadow = "inset 0px 0px 15px red"
+    gameModeChoosen = true;
 }
