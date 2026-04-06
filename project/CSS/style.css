@@ -3,6 +3,11 @@
     src: url(../FONT/protest/Protest\ Demo.otf);
 }
 
+@font-face {
+    font-family: Amoria;
+    src: url(../FONT/amoria/AMORIA.otf);
+}
+
 body {
     background-image: url(../IMG/Space.webp);
     background-size: cover;
@@ -265,7 +270,7 @@ img {
     transform: rotateY(-180deg);
 
     position: absolute; 
-    top: 10%;
+    top: 15%; 
     left: 0%;
 
     display: grid;
@@ -277,8 +282,9 @@ img {
 }
 
 #GameModeOptions p {
+    font-family: Amoria;
     text-align: center; 
-    background-color: #0a142899;
+    background-color: #0a142899; 
     margin: 0; 
     font-size: 2vw; 
 }

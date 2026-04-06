@@ -93,21 +93,16 @@ window.addEventListener("wheel", (e) => { // EvenListener für das Wheel
 **********************************************************
 *********************************************************/
 
-let mapImages = ['./Img/Europe.png', './Img/Asia.png', './Img/Africa.png', './Img/NorthAmerica.png', './Img/SouthAmerica.png', './Img/Australia.png']
-let worldMapGenerateTimer;
+let mapImages = ['./Img/World.png', './Img/Europe.png', './Img/Asia.png', './Img/Africa.png', './Img/NorthAmerica.png', './Img/SouthAmerica.png', './Img/Australia.png']
 
 function generateMaps() { // Generiert die einzelnen Maps für die Auswahl
-    worldMapGenerateTimer = setInterval(function() { // Generiert die World Map
-        let randomImage = Math.floor(Math.random()*mapImages.length)
-        document.querySelector('.MapWorld').innerHTML = `<img src="${mapImages[randomImage]}" alt="${mapImages[randomImage]}">`
-    }, 1000)
-
-    document.querySelector('.MapEurope').innerHTML = `<img src="${mapImages[0]}" alt="${mapImages[0]}">`
-    document.querySelector('.MapAsia').innerHTML = `<img src="${mapImages[1]}" alt="${mapImages[1]}">`
-    document.querySelector('.MapAfrica').innerHTML = `<img src="${mapImages[2]}" alt="${mapImages[2]}">`
-    document.querySelector('.MapNorthAmerica').innerHTML = `<img src="${mapImages[3]}" alt="${mapImages[3]}">`
-    document.querySelector('.MapSouthAmerica').innerHTML = `<img src="${mapImages[4]}" alt="${mapImages[4]}">`
-    document.querySelector('.MapAustralia').innerHTML = `<img src="${mapImages[5]}" alt="${mapImages[5]}">`
+    document.querySelector('.MapWorld').innerHTML = `<img src="${mapImages[0]}" alt="${mapImages[0]}">`
+    document.querySelector('.MapEurope').innerHTML = `<img src="${mapImages[1]}" alt="${mapImages[1]}">`
+    document.querySelector('.MapAsia').innerHTML = `<img src="${mapImages[2]}" alt="${mapImages[2]}">`
+    document.querySelector('.MapAfrica').innerHTML = `<img src="${mapImages[3]}" alt="${mapImages[3]}">`
+    document.querySelector('.MapNorthAmerica').innerHTML = `<img src="${mapImages[4]}" alt="${mapImages[4]}">`
+    document.querySelector('.MapSouthAmerica').innerHTML = `<img src="${mapImages[5]}" alt="${mapImages[54]}">`
+    document.querySelector('.MapAustralia').innerHTML = `<img src="${mapImages[6]}" alt="${mapImages[6]}">`
     document.querySelector('.MapSuprise').innerHTML = `<img src="./IMG/Suprise.png" alt="Suprise.png">`
 }
 
@@ -121,8 +116,11 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
             let allMaps = document.querySelectorAll('.GameModeMaps')
             allMaps.forEach((GameModeMaps, i) => {
                 GameModeMaps.style.transform = 'rotateY(0deg)';
+                GameModeMaps.innerHTML = ""
             });
             alreadyRotated = false;
+
+            generateMaps()
         }
 
         element.style.transform = 'rotateY(180deg)' // Dreht die ausgewählte Box um 180deg
@@ -132,10 +130,12 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
         element.innerHTML += 
             `
             <div id="GameModeOptions">
-                <p>Hallo</p> 
-                <p>Hallo</p>
-                <p>Hallo</p>
-                <p>Hallo</p>
+                <p>ALLE</p> 
+                <p>10</p>
+                <p>20</p>
+                <p>30</p>
+                <p style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
+                <p style="grid-column: 1/3;">Eingabe</p>
             </div>
             `
         
