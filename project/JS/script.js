@@ -186,13 +186,13 @@ function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
     if(amountChoosen) { 
         let allAmounts = document.querySelectorAll('.GameModeOptionsAmount')
         allAmounts.forEach((GameModeOptionsAmount) => {
-            GameModeOptionsAmount.style.boxShadow = '0px 0px 0px';
+            GameModeOptionsAmount.style.boxShadow = '0px 0px 0px'; // Zurücksetzen des Box-Shadows
         });
         amountChoosen = false;
     }
 
     finalAmount = amount
-    element.style.boxShadow = "inset 0px 0px 15px red"
+    element.style.boxShadow = "inset 0px 0px 15px red" // Setzen des Box-Shadows
     amountChoosen = true;
 }
 
@@ -202,13 +202,13 @@ function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
     if(gameModeChoosen) {
         let allModes = document.querySelectorAll('.GameModeOptionsMode')
         allModes.forEach((GameModeOptionsMode) => {
-            GameModeOptionsMode.style.boxShadow = '0px 0px 0px';
+            GameModeOptionsMode.style.boxShadow = '0px 0px 0px'; // Zurücksetzen des Box-Shadows
         });
         gameModeChoosen = false;
     }
 
     finalGameMode = gameMode
-    element.style.boxShadow = "inset 0px 0px 15px red"
+    element.style.boxShadow = "inset 0px 0px 15px red" // Setzen des Box-Shadows
     gameModeChoosen = true;
 }
 
@@ -220,22 +220,22 @@ function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
 
 let gameScreen = document.getElementById('ActualGameScreen')
 
-function generateIndividualMode(modeType) {
-    if(modeType == "Choose") {
+function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbildschirms
+    if(modeType == "Choose") { // Multiple Choice
         gameScreen.innerHTML = 
             `
             <div id="GameScreenHeader"><p id="GameScreenHeaderText">0 Pkt.</p></div>
 
             <div id="GameScreenChooseGrid">
-                <img id="GameScreenCountryFlag" src="./IMG/Austria.png" alt="Austria">
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Berlin</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Prag</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Wien</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Ljubljana</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Bern</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Bratislava</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Rom</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">Keine</p>
+                <img id="GameScreenCountryFlag" src="${countryData[0].flag}" alt="${countryData[0].name}">
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">${countryData[0].name}</p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
+                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
             </div>
             `
     }
