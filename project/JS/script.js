@@ -170,9 +170,9 @@ function generateGameModeOptions(element, index, map) { // Generiert per OnClick
             `
             <div id="GameModeOptions">
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">ALLE</p> 
-                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">10</p>
-                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">20</p>
-                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">30</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 10)">10</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 20)">20</p>
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 30)">30</p>
                 <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
                 <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3;">Eingabe</p>
                 <img id="GameModeOptionsContinue" onclick="bothChoosen()" src="./IMG/Return.png" alt="Weiter">
@@ -248,18 +248,48 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
         `
 
     gameAvailableArray = []
-
     for(let i = 0; i < countryData.length; i++) {
         if(choosenMap == countryData[i].continent) {
             gameAvailableArray.push(countryData[i])
         }
     }
 
-    playArray = []
-
-    for(let i = 0; i < finalAmount; i++) {
-        
+    if(choosenMap == 'World') {
+        gameAvailableArray = countryData
     }
+
+    playArray = []
+    let randomNumbers = []
+
+    let usedFirstIndexes = []
+    for(let i = 0; i < finalAmount; i++) {
+        randomNumbers = generateRandomNumbers()
+        while (usedFirstIndexes.includes(randomNumbers[0])) {
+            randomNumbers = generateRandomNumbers()
+        }
+        randomNumbers[1+Math.floor(Math.random()*8)] = randomNumbers[0]
+
+        usedFirstIndexes.push(randomNumbers[0])
+        playArray.push(randomNumbers)
+    }
+}
+
+function generateRandomNumbers() {
+    let result = []
+
+    for(let i = 0; i < 9; i++) {
+        let isdouble = true
+        do {
+            let rndNumber = Math.floor(Math.random()*gameAvailableArray.length)
+
+            if(!result.includes(rndNumber)) {
+                result.push(rndNumber)
+                isdouble = false
+            }
+        } while(isdouble)
+    }
+
+    return result
 }
 
 let finalInstruction = ""
@@ -295,7 +325,7 @@ function chooseSolution(element, solution) { // Auswahl der Angabe
 }
 
 function startGame() {
-    if(gameModeChoosen && amountChoosen) {
+    if(instructionChoosen && solutionChoosen) {
         generateIndividualMode(finalGameMode)
     }
 }
@@ -306,26 +336,70 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
             `
             <div id="GameScreenHeader"><p id="GameScreenHeaderText">0 Pkt.</p></div>
 
-            <div id="GameScreenChooseGrid">
-                <img id="GameScreenCountryFlag" src="${countryData[0].flag}" alt="${countryData[0].name}">
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()">${countryData[0].name}</p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-                <p class="GameScreenChooseAnswer" onclick="chooseAnswer()"></p>
-            </div>
+            <div id="GameScreenChooseGrid"></div>
             `
+
+        modeChoose(0)
     }
 } 
 
-function chooseAnswer() {
-    gameScreen.innerHTML += 
-        `
-        <div id="GameScreenAnswerResult">
-            <p>FALSCH!</p>
-        </div>
-        `
+function modeChoose(index) {
+    let GameScreenChooseGrid = document.getElementById('GameScreenChooseGrid')     
+    if(finalInstruction == 'flag') {
+        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${playArray[0].name}">`
+    } else {
+        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${playArray[0].name}">`
+    }
+
+    if(finalSolution == 'name') {
+        for (let i = 0; i < 9; i++) {
+            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer('${gameAvailableArray[playArray[index][i+1]].name}', ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
+        }
+    } else {
+        for (let i = 0; i < 9; i++) {
+            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer('${gameAvailableArray[playArray[index][i+1]].capital}', ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
+        }
+    }
+}
+
+function chooseAnswer(answer, index) {
+    if(finalSolution == 'name') {
+        if(answer == gameAvailableArray[playArray[index][0]].name) {
+            gameScreen.innerHTML += 
+                `
+                <div id="GameScreenAnswerResult">
+                    <p>RICHTIG!</p>
+                </div>
+                `
+        } else {
+            gameScreen.innerHTML += 
+                `
+                <div id="GameScreenAnswerResult">
+                    <p>FALSCH!</p>
+                </div>
+                `
+        }
+    } else {
+        if(answer == gameAvailableArray[playArray[index][0]].capital) {
+            gameScreen.innerHTML += 
+                `
+                <div id="GameScreenAnswerResult">
+                    <p>Richtig!</p>
+                </div>
+                `
+        } else {
+            gameScreen.innerHTML += 
+                `
+                <div id="GameScreenAnswerResult">
+                    <p>FALSCH!</p>
+                </div>
+                `
+        }
+    }
+    
+    setTimeout( function() {
+        document.getElementById('GameScreenAnswerResult').remove()
+        modeChoose(index+1)
+    }, 500) 
+    
 }
