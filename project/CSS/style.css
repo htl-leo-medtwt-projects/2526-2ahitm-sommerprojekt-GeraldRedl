@@ -338,6 +338,69 @@ img {
     height: 100%;
 }
 
+#superiorGameOptions {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#furtherGameOptions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    width: 60%;
+    gap: 1vw;
+}
+
+#furtherGameOptions p {
+    color: white;
+    font-family: Amoria;
+    text-align: center;
+    font-size: 3vw;
+
+    margin: 0;
+    padding: 2vw;
+
+    background-color: #0a142899;
+}
+
+#furtherGameOptions p:hover {
+    cursor: pointer;
+}
+
+.furtherGameOptionsHeader {
+    color: white;
+    font-family: Amoria;
+    text-align: center;
+    font-size: 3.5vw;
+
+    margin: 0;
+    padding: 2vw;
+
+    background-color: #0a142899;
+    text-shadow: 0px 0px 15px white;
+}
+
+.furtherGameOptionsHeader:hover {
+    cursor: default;
+}
+
+#furtherOptionsContinue {
+    grid-column: 1/3; 
+    width: 60%;
+    transform: rotateY(-180deg);
+    background-color: #0a142899;
+    padding: 0 20% 0 20%;
+    left: 0%;
+}
+
+#furtherOptionsContinue {
+    cursor: pointer;
+}
+
 #GameScreenHeader {
     width: 100%;
     height: 8%;

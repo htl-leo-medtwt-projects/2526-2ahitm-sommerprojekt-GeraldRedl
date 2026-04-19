@@ -145,9 +145,10 @@ function generateMaps() { // Generiert die einzelnen Maps für die Auswahl
 
 generateMaps()
 
+let choosenMap = ""
 let alreadyRotated = false;
 let rotatedElement = -1;
-function generateGameModeOptions(element, index) { // Generiert per OnClick die jewiligen Optionen zum auswählen
+function generateGameModeOptions(element, index, map) { // Generiert per OnClick die jewiligen Optionen zum auswählen
     if(index != rotatedElement) {
         if(alreadyRotated) { // Dreht die Boxen in ihre Originalposition
             let allMaps = document.querySelectorAll('.GameModeMaps')
@@ -163,6 +164,7 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
         element.style.transform = 'rotateY(180deg)' // Dreht die ausgewählte Box um 180deg
         alreadyRotated = true;
         rotatedElement = index;
+        choosenMap = map;
 
         element.innerHTML += // Generiert die Auswahloptionen
             `
@@ -227,16 +229,75 @@ function bothChoosen() {
 
 let gameScreen = document.getElementById('ActualGameScreen')
 
-function generateFurtherOptions() {
+let gameAvailableArray
+let playArray
+function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
     gameScreen.innerHTML = 
         `
-        <div id="furtherGameOptions">
-            <p>FLAGGE</p>
-            <p>WAPPEN</p>
-            <p>NAME</p>
-            <p>HAUPTSTADT</p>
+        <div id="superiorGameOptions">
+            <div id="furtherGameOptions">
+                <h1 class="furtherGameOptionsHeader">ANGABE</h1>
+                <h1 class="furtherGameOptionsHeader">LÖSUNG</h1>
+                <p class="Instruction" onclick="chooseInstruction(this, 'flag')">FLAGGE</p>
+                <p class="Solution" onclick="chooseSolution(this, 'name')">NAME</p>
+                <p class="Instruction" onclick="chooseInstruction(this, 'coatOfArms')">WAPPEN</p>
+                <p class="Solution" onclick="chooseSolution(this, 'capital')">HAUPTSTADT</p>
+                <img id="furtherOptionsContinue" onclick="startGame()" src="./IMG/Return.png" alt="Weiter">
+            </div>
         </div>
         `
+
+    gameAvailableArray = []
+
+    for(let i = 0; i < countryData.length; i++) {
+        if(choosenMap == countryData[i].continent) {
+            gameAvailableArray.push(countryData[i])
+        }
+    }
+
+    playArray = []
+
+    for(let i = 0; i < finalAmount; i++) {
+        
+    }
+}
+
+let finalInstruction = ""
+let instructionChoosen = false
+function chooseInstruction(element, instruction) { // Auswahl der Angabe
+    if(instructionChoosen) {
+        let allInstructions = document.querySelectorAll('.Instruction')
+        allInstructions.forEach((Instruction) => {
+            Instruction.style.boxShadow = '0px 0px 0px'; // Zurücksetzen des Box-Shadows
+        });
+        instructionChoosen = false;
+    }
+
+    finalInstruction = instruction
+    element.style.boxShadow = "inset 0px 0px 15px red" // Setzen des Box-Shadows
+    instructionChoosen = true;
+}
+
+let finalSolution = ""
+let solutionChoosen = false
+function chooseSolution(element, solution) { // Auswahl der Angabe
+    if(solutionChoosen) {
+        let allSolutions = document.querySelectorAll('.Solution')
+        allSolutions.forEach((Solution) => {
+            Solution.style.boxShadow = '0px 0px 0px'; // Zurücksetzen des Box-Shadows
+        });
+        solutionChoosen = false;
+    }
+
+    finalSolution = solution
+    element.style.boxShadow = "inset 0px 0px 15px red" // Setzen des Box-Shadows
+    solutionChoosen = true;
+}
+
+function startGame() {
+    if(gameModeChoosen && amountChoosen) {
+        generateIndividualMode(finalGameMode)
+    }
 }
 
 function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbildschirms
