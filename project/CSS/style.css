@@ -313,7 +313,10 @@ img {
 #GameModeOptionsContinue {
     grid-column: 1/3; 
     margin-top: 1.5vw; 
-    transform: rotateY(-180deg)
+    transform: rotateY(-180deg);
+    background-color: #0a142899;
+    padding: 0 20% 0 20%;
+    left: 0%;
 }
 
 /*********************************************************
