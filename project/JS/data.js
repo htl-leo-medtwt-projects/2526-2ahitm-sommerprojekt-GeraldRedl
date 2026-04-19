@@ -351,13 +351,6 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Europe"
     },
     {
-        "name": "Großbritannien",
-        "capital": "London",
-        "flag": "./IMG/FLAGS/UnitedKingdom.png",
-        "coatOfArms": "./IMG/COATS/UnitedKingdom.png",
-        "continent": "Europe"
-    },
-    {
         "name": "Guatemala",
         "capital": "Guatemala-Stadt",
         "flag": "./IMG/FLAGS/Guatemala.png",
@@ -1175,6 +1168,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/UAE.png",
         "coatOfArms": "./IMG/COATS/UAE.png",
         "continent": "Asia"
+    },
+    {
+        "name": "Vereinigtes Königreich",
+        "capital": "London",
+        "flag": "./IMG/FLAGS/UnitedKingdom.png",
+        "coatOfArms": "./IMG/COATS/UnitedKingdom.png",
+        "continent": "Europe"
     },
     {
         "name": "Vietnam",
