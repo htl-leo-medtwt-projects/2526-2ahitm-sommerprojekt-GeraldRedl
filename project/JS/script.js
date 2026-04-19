@@ -173,7 +173,7 @@ function generateGameModeOptions(element, index) { // Generiert per OnClick die 
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">30</p>
                 <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
                 <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3;">Eingabe</p>
-                <img id="GameModeOptionsContinue" onclick="showNextScreen('GameMode', 'GameScreen'), generateIndividualMode(finalGameMode)" src="./IMG/Return.png" alt="Weiter">
+                <img id="GameModeOptionsContinue" onclick="bothChoosen()" src="./IMG/Return.png" alt="Weiter">
             </div>
             `  
         
@@ -212,6 +212,13 @@ function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
     gameModeChoosen = true;
 }
 
+function bothChoosen() {
+    if(gameModeChoosen && amountChoosen) {
+        showNextScreen('GameMode', 'GameScreen')
+        generateFurtherOptions()
+    }
+}
+
 /*********************************************************
 **********************************************************
 ***************GAMESCREEN-CHOOSE/INPUT********************
@@ -219,6 +226,18 @@ function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
 *********************************************************/
 
 let gameScreen = document.getElementById('ActualGameScreen')
+
+function generateFurtherOptions() {
+    gameScreen.innerHTML = 
+        `
+        <div id="furtherGameOptions">
+            <p>FLAGGE</p>
+            <p>WAPPEN</p>
+            <p>NAME</p>
+            <p>HAUPTSTADT</p>
+        </div>
+        `
+}
 
 function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbildschirms
     if(modeType == "Choose") { // Multiple Choice
