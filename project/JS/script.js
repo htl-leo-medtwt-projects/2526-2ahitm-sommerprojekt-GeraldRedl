@@ -247,9 +247,9 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
         </div>
         `
 
-    gameAvailableArray = []
+    gameAvailableArray = [] // Erstellt einen leeren Array
     for(let i = 0; i < countryData.length; i++) {
-        if(choosenMap == countryData[i].continent) {
+        if(choosenMap == countryData[i].continent) { // fühlt der Array nur mit den Ländern die verwendet werden sollen
             gameAvailableArray.push(countryData[i])
         }
     }
@@ -258,23 +258,23 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
         gameAvailableArray = countryData
     }
 
-    playArray = []
-    let randomNumbers = []
+    playArray = [] // Array für die Länder mit denen gespielt werden soll
+    let randomNumbers = [] // Array für Länder die in einer Runde vorkommen
 
-    let usedFirstIndexes = []
+    let usedFirstIndexes = [] // Array für verwendete Lösungsländer
     for(let i = 0; i < finalAmount; i++) {
         randomNumbers = generateRandomNumbers()
         while (usedFirstIndexes.includes(randomNumbers[0])) {
             randomNumbers = generateRandomNumbers()
         }
-        randomNumbers[1+Math.floor(Math.random()*8)] = randomNumbers[0]
+        randomNumbers[1+Math.floor(Math.random()*8)] = randomNumbers[0] // Erste Stelle wird doppelt benötigt
 
         usedFirstIndexes.push(randomNumbers[0])
         playArray.push(randomNumbers)
     }
 }
 
-function generateRandomNumbers() {
+function generateRandomNumbers() { // füllt den Array mit 9 Random Zahlen
     let result = []
 
     for(let i = 0; i < 9; i++) {
@@ -310,7 +310,7 @@ function chooseInstruction(element, instruction) { // Auswahl der Angabe
 
 let finalSolution = ""
 let solutionChoosen = false
-function chooseSolution(element, solution) { // Auswahl der Angabe
+function chooseSolution(element, solution) { // Auswahl der Lösung
     if(solutionChoosen) {
         let allSolutions = document.querySelectorAll('.Solution')
         allSolutions.forEach((Solution) => {
@@ -330,12 +330,14 @@ function startGame() {
     }
 }
 
+let finalPoints = 0;
 function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbildschirms
     if(modeType == "Choose") { // Multiple Choice
         gameScreen.innerHTML = 
             `
-            <div id="GameScreenHeader"><p id="GameScreenHeaderText">0 Pkt.</p></div>
+            <div id="GameScreenHeader"><p id="GameScreenHeaderText">${finalPoints} Pkt.</p></div>
             <div id="GameScreenHeaderAmount"><p>0/${finalAmount}</p></div>
+            <img id="MarsTimer" src="./IMG/Mars.png" alt="Mars">
 
             <div id="GameScreenChooseGrid"></div>
             `
@@ -362,8 +364,8 @@ function modeChoose(index) {
         }
     }
 
-    let test = document.getElementById('GameScreenHeaderAmount').innerHTML = `<p>${index+1}/${finalAmount}</p>`
-    
+    document.getElementById('GameScreenHeaderAmount').innerHTML = `<p>${index+1}/${finalAmount}</p>`
+    startMarsTimer()
 }
 
 function chooseAnswer(answer, index) {
@@ -375,6 +377,8 @@ function chooseAnswer(answer, index) {
                     <p>RICHTIG!</p>
                 </div>
                 `
+            let currentTop = progress * 50;
+            finalPoints += (50-currentTop)*2;
         } else {
             gameScreen.innerHTML += 
                 `
@@ -391,6 +395,8 @@ function chooseAnswer(answer, index) {
                     <p>Richtig!</p>
                 </div>
                 `
+            let currentTop = progress * 50;
+            finalPoints += (50-currentTop)*2; 
         } else {
             gameScreen.innerHTML += 
                 `
@@ -400,9 +406,16 @@ function chooseAnswer(answer, index) {
                 `
         }
     }
+    clearInterval(timer);
 
+    document.getElementById('GameScreenHeader').innerHTML = `<p id="GameScreenHeaderText">${finalPoints} Pkt.</p>`
     document.getElementById('GameScreenAnswerResult').innerHTML += `<p id="ContinueAnswer" onclick="removeResult(), modeChoose(${index+1})">Weiter</p>`
     
+    if(index == finalAmount-1) {
+        document.getElementById('GameScreenAnswerResult').innerHTML = `<p>Fertig!</p>`
+        finalPoints = 0
+    }
+
     let allAnswers = document.querySelectorAll('.GameScreenChooseAnswer')
     allAnswers.forEach((GameScreenChooseAnswer) => {
         GameScreenChooseAnswer.removeAttribute('onclick')
@@ -411,4 +424,37 @@ function chooseAnswer(answer, index) {
 
 function removeResult() {
     document.getElementById('GameScreenAnswerResult').remove()
+}
+
+let mars;
+
+let duration = 10;
+let timeLeft = duration;
+let progress = 0;
+let timer;
+
+function startMarsTimer() {
+
+    mars = document.getElementById("MarsTimer");
+
+    timeLeft = duration;
+    progress = 0;
+
+    mars.style.top = "0vw";
+
+    timer = setInterval(function () {
+
+        timeLeft--;
+
+        progress = (duration - timeLeft) / duration;
+
+        let topValue = progress * 50;
+        mars.style.top = topValue + "vw";
+
+
+        if (timeLeft <= 0) {
+            clearInterval(timer);
+        }
+
+    }, 1000);
 }
