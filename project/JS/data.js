@@ -253,6 +253,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Europe"
     },
     {
+        "name": "Dominica",
+        "capital": "Roseau",
+        "flag": "./IMG/FLAGS/Dominica.png",
+        "coatOfArms": "./IMG/COATS/Dominica.png",
+        "continent": "NorthAmerica"
+    },
+    {
         "name": "Dominikanische Republik",
         "capital": "Santo Domingo",
         "flag": "./IMG/FLAGS/DominicanRepublic.png",
@@ -274,6 +281,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "SouthAmerica"
     },
     {
+        "name": "Elfenbeinküste",
+        "capital": "Yamoussoukro",
+        "flag": "./IMG/FLAGS/IvoryCoast.png",
+        "coatOfArms": "./IMG/COATS/IvoryCoast.png",
+        "continent": "Africa"
+    },
+    {
         "name": "El Salvador",
         "capital": "San Salvador",
         "flag": "./IMG/FLAGS/ElSalvador.png",
@@ -293,6 +307,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/Estonia.png",
         "coatOfArms": "./IMG/COATS/Estonia.png",
         "continent": "Europe"
+    },
+    {
+        "name": "Eswatini",
+        "capital": "Mbabane",
+        "flag": "./IMG/FLAGS/Eswatini.png",
+        "coatOfArms": "./IMG/COATS/Eswatini.png",
+        "continent": "Africa"
     },
     {
         "name": "Fidschi",
@@ -344,6 +365,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Africa"
     },
     {
+        "name": "Grenada",
+        "capital": "Saint George's",
+        "flag": "./IMG/FLAGS/Grenada.png",
+        "coatOfArms": "./IMG/COATS/Grenada.png",
+        "continent": "NorthAmerica"
+    },
+    {
         "name": "Griechenland",
         "capital": "Athen",
         "flag": "./IMG/FLAGS/Greece.png",
@@ -363,6 +391,20 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/Guinea.png",
         "coatOfArms": "./IMG/COATS/Guinea.png",
         "continent": "Africa"
+    },
+    {
+        "name": "Guinea-Bissau",
+        "capital": "Bissau",
+        "flag": "./IMG/FLAGS/GuineaBissau.png",
+        "coatOfArms": "./IMG/COATS/GuineaBissau.png",
+        "continent": "Africa"
+    },
+    {
+        "name": "Guyana",
+        "capital": "Georgetown",
+        "flag": "./IMG/FLAGS/Guyana.png",
+        "coatOfArms": "./IMG/COATS/Guyana.png",
+        "continent": "SouthAmerica"
     },
     {
         "name": "Haiti",
@@ -447,7 +489,14 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/Japan.png",
         "coatOfArms": "./IMG/COATS/Japan.png",
         "continent": "Asia"
-    }    ,
+    },
+    {
+        "name": "Jemen",
+        "capital": "Sanaa",
+        "flag": "./IMG/FLAGS/Yemen.png",
+        "coatOfArms": "./IMG/COATS/Yemen.png",
+        "continent": "Asia"
+    },
     {
         "name": "Jordanien",
         "capital": "Amman",
@@ -545,6 +594,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/DRC.png",
         "coatOfArms": "./IMG/COATS/DRC.png",
         "continent": "Africa"
+    },
+    {
+        "name": "Kosovo",
+        "capital": "Pristina",
+        "flag": "./IMG/FLAGS/Kosovo.png",
+        "coatOfArms": "./IMG/COATS/Kosovo.png",
+        "continent": "Europe"
     },
     {
         "name": "Kroatien",
@@ -848,6 +904,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Europe"
     },
     {
+        "name": "Osttimor",
+        "capital": "Dili",
+        "flag": "./IMG/FLAGS/EastTimor.png",
+        "coatOfArms": "./IMG/COATS/EastTimor.png",
+        "continent": "Asia"
+    },
+    {
         "name": "Pakistan",
         "capital": "Islamabad",
         "flag": "./IMG/FLAGS/Pakistan.png",
@@ -860,6 +923,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/Palau.png",
         "coatOfArms": "./IMG/COATS/Palau.png",
         "continent": "Australia"
+    },
+    {
+        "name": "Palästina",
+        "capital": "Ramallah",
+        "flag": "./IMG/FLAGS/Palestine.png",
+        "coatOfArms": "./IMG/COATS/Palestine.png",
+        "continent": "Asia"
     },
     {
         "name": "Panama",
@@ -932,6 +1002,41 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Africa"
     },
     {
+        "name": "Salomonen",
+        "capital": "Honiara",
+        "flag": "./IMG/FLAGS/SolomonIslands.png",
+        "coatOfArms": "./IMG/COATS/SolomonIslands.png",
+        "continent": "Australia"
+    },
+    {
+        "name": "Sambia",
+        "capital": "Lusaka",
+        "flag": "./IMG/FLAGS/Zambia.png",
+        "coatOfArms": "./IMG/COATS/Zambia.png",
+        "continent": "Africa"
+    },
+    {
+        "name": "Samoa",
+        "capital": "Apia",
+        "flag": "./IMG/FLAGS/Samoa.png",
+        "coatOfArms": "./IMG/COATS/Samoa.png",
+        "continent": "Australia"
+    },
+    {
+        "name": "San Marino",
+        "capital": "San Marino",
+        "flag": "./IMG/FLAGS/SanMarino.png",
+        "coatOfArms": "./IMG/COATS/SanMarino.png",
+        "continent": "Europe"
+    },
+    {
+        "name": "Sao Tome und Principe",
+        "capital": "São Tomé",
+        "flag": "./IMG/FLAGS/SaoTomeAndPrincipe.png",
+        "coatOfArms": "./IMG/COATS/SaoTomeAndPrincipe.png",
+        "continent": "Africa"
+    },
+    {
         "name": "Saudi-Arabien",
         "capital": "Riad",
         "flag": "./IMG/FLAGS/SaudiArabia.png",
@@ -981,6 +1086,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Africa"
     },
     {
+        "name": "Simbabwe",
+        "capital": "Harare",
+        "flag": "./IMG/FLAGS/Zimbabwe.png",
+        "coatOfArms": "./IMG/COATS/Zimbabwe.png",
+        "continent": "Africa"
+    },
+    {
         "name": "Singapur",
         "capital": "Singapur",
         "flag": "./IMG/FLAGS/Singapore.png",
@@ -1023,6 +1135,34 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Asia"
     },
     {
+        "name": "St. Kitts und Nevis",
+        "capital": "Basseterre",
+        "flag": "./IMG/FLAGS/SaintKittsAndNevis.png",
+        "coatOfArms": "./IMG/COATS/SaintKittsAndNevis.png",
+        "continent": "NorthAmerica"
+    },
+    {
+        "name": "St. Lucia",
+        "capital": "Castries",
+        "flag": "./IMG/FLAGS/SaintLucia.png",
+        "coatOfArms": "./IMG/COATS/SaintLucia.png",
+        "continent": "NorthAmerica"
+    },
+    {
+        "name": "St. Vincent und die Grenadinen",
+        "capital": "Kingstown",
+        "flag": "./IMG/FLAGS/SaintVincentAndTheGrenadines.png",
+        "coatOfArms": "./IMG/COATS/SaintVincentAndTheGrenadines.png",
+        "continent": "NorthAmerica"
+    },
+    {
+        "name": "Sudan",
+        "capital": "Khartum",
+        "flag": "./IMG/FLAGS/Sudan.png",
+        "coatOfArms": "./IMG/COATS/Sudan.png",
+        "continent": "Africa"
+    },
+    {
         "name": "Südafrika",
         "capital": "Pretoria",
         "flag": "./IMG/FLAGS/SouthAfrica.png",
@@ -1037,10 +1177,38 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Asia"
     },
     {
+        "name": "Südsudan",
+        "capital": "Juba",
+        "flag": "./IMG/FLAGS/SouthSudan.png",
+        "coatOfArms": "./IMG/COATS/SouthSudan.png",
+        "continent": "Africa"
+    },
+    {
+        "name": "Suriname",
+        "capital": "Paramaribo",
+        "flag": "./IMG/FLAGS/Suriname.png",
+        "coatOfArms": "./IMG/COATS/Suriname.png",
+        "continent": "SouthAmerica"
+    },
+    {
         "name": "Syrien",
         "capital": "Damaskus",
         "flag": "./IMG/FLAGS/Syria.png",
         "coatOfArms": "./IMG/COATS/Syria.png",
+        "continent": "Asia"
+    },
+    {
+        "name": "Tadschikistan",
+        "capital": "Duschanbe",
+        "flag": "./IMG/FLAGS/Tajikistan.png",
+        "coatOfArms": "./IMG/COATS/Tajikistan.png",
+        "continent": "Asia"
+    },
+    {
+        "name": "Taiwan",
+        "capital": "Taipeh",
+        "flag": "./IMG/FLAGS/Taiwan.png",
+        "coatOfArms": "./IMG/COATS/Taiwan.png",
         "continent": "Asia"
     },
     {
@@ -1072,6 +1240,13 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "continent": "Australia"
     },
     {
+        "name": "Trinidad und Tobago",
+        "capital": "Port of Spain",
+        "flag": "./IMG/FLAGS/TrinidadAndTobago.png",
+        "coatOfArms": "./IMG/COATS/TrinidadAndTobago.png",
+        "continent": "NorthAmerica"
+    },
+    {
         "name": "Tschad",
         "capital": "N’Djamena",
         "flag": "./IMG/FLAGS/Chad.png",
@@ -1098,6 +1273,20 @@ let countryData = // Alles selbst geschrieben. Spaß is KI
         "flag": "./IMG/FLAGS/Turkey.png",
         "coatOfArms": "./IMG/COATS/Turkey.png",
         "continent": "Asia"
+    },
+    {
+        "name": "Turkmenistan",
+        "capital": "Aschgabat",
+        "flag": "./IMG/FLAGS/Turkmenistan.png",
+        "coatOfArms": "./IMG/COATS/Turkmenistan.png",
+        "continent": "Asia"
+    },
+    {
+        "name": "Tuvalu",
+        "capital": "Funafuti",
+        "flag": "./IMG/FLAGS/Tuvalu.png",
+        "coatOfArms": "./IMG/COATS/Tuvalu.png",
+        "continent": "Australia"
     },
     {
         "name": "Uganda",
