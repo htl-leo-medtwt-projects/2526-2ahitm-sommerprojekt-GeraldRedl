@@ -174,7 +174,7 @@ function generateGameModeOptions(element, index, map) { // Generiert per OnClick
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 20)">20</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 30)">30</p>
                 <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3; margin-top: 2vw;">Auswahl</p>
-                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Choose')" style="grid-column: 1/3;">Eingabe</p>
+                <p class="GameModeOptionsMode" onclick="chooseGameMode(this, 'Input')" style="grid-column: 1/3;">Eingabe</p>
                 <img id="GameModeOptionsContinue" onclick="bothChoosen()" src="./IMG/Return.png" alt="Weiter">
             </div>
             `  
@@ -343,27 +343,49 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
             `
 
         modeChoose(0)
+    } else if(modeType == "Input") {
+        gameScreen.innerHTML = 
+            `
+            <div id="GameScreenHeader"><p id="GameScreenHeaderText">${finalPoints} Pkt.</p></div>
+            <div id="GameScreenHeaderAmount"><p>0/${finalAmount}</p></div>
+            <img id="MarsTimer" src="./IMG/Mars.png" alt="Mars">
+
+            <input type="text" name="GameScreenInput" id="GameScreenInput">
+            <div id="GameScreenInputFlagArea"></div>
+            `
+
+        modeChoose(0)
     }
 } 
 
 function modeChoose(index) {
-    let GameScreenChooseGrid = document.getElementById('GameScreenChooseGrid')     
-    if(finalInstruction == 'flag') {
-        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
-    } else {
-        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
-    }
+    if(finalGameMode == "Choose") {
+        let GameScreenChooseGrid = document.getElementById('GameScreenChooseGrid')  
 
-    if(finalSolution == 'name') {
-        for (let i = 0; i < 8; i++) {
-        GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].name}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
+        if(finalInstruction == 'flag') {
+            GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
+        } else {
+            GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         }
-    } else {
-        for (let i = 0; i < 8; i++) {
-            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].capital}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
+
+        if(finalSolution == 'name') {
+            for (let i = 0; i < 8; i++) {
+            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].name}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
+            }
+        } else {
+            for (let i = 0; i < 8; i++) {
+                GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].capital}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
+            }
+        }
+    } else if(finalGameMode == "Input") {
+        let GameScreenInputFlagArea = document.getElementById('GameScreenInputFlagArea')
+
+        if(finalInstruction == 'flag') {
+            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
+        } else {
+            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         }
     }
-
     document.getElementById('GameScreenHeaderAmount').innerHTML = `<p>${index+1}/${finalAmount}</p>`
     startMarsTimer()
 }
@@ -451,9 +473,10 @@ function startMarsTimer() {
         let topValue = progress * 50;
         mars.style.top = topValue + "vw";
 
-
+        console.log(`${timeLeft}s übrig`)
         if (timeLeft <= 0) {
             clearInterval(timer);
+            console.log(`Fertig`)
         }
 
     }, 1000);

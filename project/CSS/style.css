@@ -443,7 +443,7 @@ img {
 
 #GameScreenCountryFlag {
     width: 50%;
-    margin-left: auto;
+    margin-left: 25%;
     margin-right: auto;
     grid-column: 1/3;
 }
@@ -512,8 +512,21 @@ img {
 
 #MarsTimer {
     position: absolute;
-    top: 0vw; /*Wenn Timer abläuft => 50vw*/
+    top: 0vw; /*Wenn Timer abläuft => 50vw; Punkte = (50-top)*2 */
     right: -6vw;
     width: 12vw;
     transition: top 1s linear;
+}
+
+#GameScreenInput {
+    font-size: 3vw;
+    width: 30%;
+    margin-left: 35%;
+    margin-bottom: 3vw;
+}
+
+#GameScreenInputFlagArea {
+    width: 70%;
+    margin-right: auto;
+    margin-left: auto;
 }
