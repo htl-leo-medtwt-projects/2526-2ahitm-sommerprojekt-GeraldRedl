@@ -335,6 +335,7 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
         gameScreen.innerHTML = 
             `
             <div id="GameScreenHeader"><p id="GameScreenHeaderText">0 Pkt.</p></div>
+            <div id="GameScreenHeaderAmount"><p>0/${finalAmount}</p></div>
 
             <div id="GameScreenChooseGrid"></div>
             `
@@ -346,20 +347,23 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
 function modeChoose(index) {
     let GameScreenChooseGrid = document.getElementById('GameScreenChooseGrid')     
     if(finalInstruction == 'flag') {
-        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${playArray[0].name}">`
+        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
     } else {
-        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${playArray[0].name}">`
+        GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
     }
 
     if(finalSolution == 'name') {
-        for (let i = 0; i < 9; i++) {
-            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer('${gameAvailableArray[playArray[index][i+1]].name}', ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
+        for (let i = 0; i < 8; i++) {
+        GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].name}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
         }
     } else {
-        for (let i = 0; i < 9; i++) {
-            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer('${gameAvailableArray[playArray[index][i+1]].capital}', ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
+        for (let i = 0; i < 8; i++) {
+            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].capital}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
         }
     }
+
+    let test = document.getElementById('GameScreenHeaderAmount').innerHTML = `<p>${index+1}/${finalAmount}</p>`
+    
 }
 
 function chooseAnswer(answer, index) {
@@ -396,10 +400,15 @@ function chooseAnswer(answer, index) {
                 `
         }
     }
+
+    document.getElementById('GameScreenAnswerResult').innerHTML += `<p id="ContinueAnswer" onclick="removeResult(), modeChoose(${index+1})">Weiter</p>`
     
-    setTimeout( function() {
-        document.getElementById('GameScreenAnswerResult').remove()
-        modeChoose(index+1)
-    }, 500) 
-    
+    let allAnswers = document.querySelectorAll('.GameScreenChooseAnswer')
+    allAnswers.forEach((GameScreenChooseAnswer) => {
+        GameScreenChooseAnswer.removeAttribute('onclick')
+    })
+}
+
+function removeResult() {
+    document.getElementById('GameScreenAnswerResult').remove()
 }
