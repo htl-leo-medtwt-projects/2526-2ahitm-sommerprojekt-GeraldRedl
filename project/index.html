@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TerraCheck</title>
 
+    <link href="./aos_libary/aos_libary/aos_style.css" rel="stylesheet">
+    <script src="./aos_libary/aos_libary/aos_script.js" defer></script>
+
     <link rel="stylesheet" href="./CSS/style.css">
     <script src="./JS/script.js" defer></script>
     <script src="./JS/data.js" defer></script>
@@ -17,9 +20,9 @@
     <div id="Homepage">
         <div id="HomepageInputGrid">
             <p id="HomepageInputGridHeader">TERRACHECK</p>
-            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'GameMode')">SPIELEN</p>
-            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Options')">OPTIONEN</p>
-            <p class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">REGELN</p>
+            <p data-aos="fade-right" data-aos-delay="300" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'GameMode')">SPIELEN</p>
+            <p data-aos="fade-right" data-aos-delay="450" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Options')">OPTIONEN</p>
+            <p data-aos="fade-right" data-aos-delay="600" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">REGELN</p>
         </div>
     </div>
 

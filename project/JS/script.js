@@ -1,3 +1,4 @@
+AOS.init();
 let earth = document.getElementById('RotatingEarth');
 let moon = document.getElementById('RotatingMoon');
 
@@ -36,13 +37,13 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
         moon.style.top = '7%'
         moon.style.left = '-3%' 
     } else if(element == 'GameScreen') {
-        earth.style.height = '70%'
-        earth.style.top = '35%'
-        earth.style.right = '120%' 
+        earth.style.height = '40%'
+        earth.style.top = '75%'
+        earth.style.right = '90%' 
 
-        moon.style.height = '15%'
-        moon.style.top = '7%'
-        moon.style.left = '-40%' 
+        moon.style.height = '45%'
+        moon.style.top = '-25%'
+        moon.style.left = '70%' 
     }
 
 }
@@ -55,6 +56,8 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
     nextE.style.visibility = "visible"
 
     movePlanets(nextElement)
+    clearInterval(timer);
+    finalPoints = 0
 }
 
 /*********************************************************
@@ -168,7 +171,7 @@ function generateGameModeOptions(element, index, map) { // Generiert per OnClick
 
         element.innerHTML += // Generiert die Auswahloptionen
             `
-            <div id="GameModeOptions">
+            <div id="GameModeOptions" data-aos="fade-right" data-aos-delay="500">
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">ALLE</p> 
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 10)">10</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 20)">20</p>
@@ -236,10 +239,10 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
         `
         <div id="superiorGameOptions">
             <div id="furtherGameOptions">
-                <h1 class="furtherGameOptionsHeader">ANGABE</h1>
-                <h1 class="furtherGameOptionsHeader">LÖSUNG</h1>
+                <h1 class="furtherGameOptionsHeader">SUCHSYMBOL</h1>
+                <h1 class="furtherGameOptionsHeader">LÖSUNGSART</h1>
                 <p class="Instruction" onclick="chooseInstruction(this, 'flag')">FLAGGE</p>
-                <p class="Solution" onclick="chooseSolution(this, 'name')">NAME</p>
+                <p class="Solution" onclick="chooseSolution(this, 'name')">LÄNDERNAME</p>
                 <p class="Instruction" onclick="chooseInstruction(this, 'coatOfArms')">WAPPEN</p>
                 <p class="Solution" onclick="chooseSolution(this, 'capital')">HAUPTSTADT</p>
                 <img id="furtherOptionsContinue" onclick="startGame()" src="./IMG/Return.png" alt="Weiter">
@@ -340,6 +343,7 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
             <img id="MarsTimer" src="./IMG/Mars.png" alt="Mars">
 
             <div id="GameScreenChooseGrid"></div>
+            <div id="GameScreenAnswerResult"></div>
             `
 
         modeChoose(0)
@@ -352,6 +356,7 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
 
             <input type="text" name="GameScreenInput" id="GameScreenInput">
             <div id="GameScreenInputFlagArea"></div>
+            <div id="GameScreenAnswerResult"></div>
             `
 
         modeChoose(0)
@@ -359,22 +364,24 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
 } 
 
 function modeChoose(index) {
+    let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
+    gameScreenAnswerResult.style.visibility = 'hidden'
     if(finalGameMode == "Choose") {
         let GameScreenChooseGrid = document.getElementById('GameScreenChooseGrid')  
 
         if(finalInstruction == 'flag') {
-            GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
+            GameScreenChooseGrid.innerHTML = `<img data-aos="flip-up" id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         } else {
             GameScreenChooseGrid.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         }
 
         if(finalSolution == 'name') {
             for (let i = 0; i < 8; i++) {
-            GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].name}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].name}</p>`
+                GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].name}\`, ${index}, this)">${gameAvailableArray[playArray[index][i+1]].name}</p>`
             }
         } else {
             for (let i = 0; i < 8; i++) {
-                GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].capital}\`, ${index})">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
+                GameScreenChooseGrid.innerHTML += `<p class="GameScreenChooseAnswer" onclick="chooseAnswer(\`${gameAvailableArray[playArray[index][i+1]].capital}\`, ${index}, this)">${gameAvailableArray[playArray[index][i+1]].capital}</p>`
             }
         }
     } else if(finalGameMode == "Input") {
@@ -390,62 +397,46 @@ function modeChoose(index) {
     startMarsTimer()
 }
 
-function chooseAnswer(answer, index) {
+function chooseAnswer(answer, index, elem) {
+    let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
+    gameScreenAnswerResult.style.visibility = "visible"
+    
+    let allAnswers = document.querySelectorAll('.GameScreenChooseAnswer')
+    allAnswers.forEach((GameScreenChooseAnswer) => {
+        GameScreenChooseAnswer.removeAttribute('onclick')
+    })
+
     if(finalSolution == 'name') {
         if(answer == gameAvailableArray[playArray[index][0]].name) {
-            gameScreen.innerHTML += 
-                `
-                <div id="GameScreenAnswerResult">
-                    <p>RICHTIG!</p>
-                </div>
-                `
+            
             let currentTop = progress * 50;
             finalPoints += (50-currentTop)*2;
+
+            console.log(elem)
+            elem.style.color = "green"
         } else {
-            gameScreen.innerHTML += 
-                `
-                <div id="GameScreenAnswerResult">
-                    <p>FALSCH!</p>
-                </div>
-                `
+            
         }
     } else {
         if(answer == gameAvailableArray[playArray[index][0]].capital) {
-            gameScreen.innerHTML += 
-                `
-                <div id="GameScreenAnswerResult">
-                    <p>Richtig!</p>
-                </div>
-                `
+            
             let currentTop = progress * 50;
             finalPoints += (50-currentTop)*2; 
         } else {
-            gameScreen.innerHTML += 
-                `
-                <div id="GameScreenAnswerResult">
-                    <p>FALSCH!</p>
-                </div>
-                `
+            
         }
     }
     clearInterval(timer);
 
     document.getElementById('GameScreenHeader').innerHTML = `<p id="GameScreenHeaderText">${finalPoints} Pkt.</p>`
-    document.getElementById('GameScreenAnswerResult').innerHTML += `<p id="ContinueAnswer" onclick="removeResult(), modeChoose(${index+1})">Weiter</p>`
+    gameScreenAnswerResult.innerHTML = `<p id="ContinueAnswer" onclick="modeChoose(${index+1})">Weiter</p>`
     
     if(index == finalAmount-1) {
-        document.getElementById('GameScreenAnswerResult').innerHTML = `<p>Fertig!</p>`
+        gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
         finalPoints = 0
     }
 
-    let allAnswers = document.querySelectorAll('.GameScreenChooseAnswer')
-    allAnswers.forEach((GameScreenChooseAnswer) => {
-        GameScreenChooseAnswer.removeAttribute('onclick')
-    })
-}
-
-function removeResult() {
-    document.getElementById('GameScreenAnswerResult').remove()
+    
 }
 
 let mars;
