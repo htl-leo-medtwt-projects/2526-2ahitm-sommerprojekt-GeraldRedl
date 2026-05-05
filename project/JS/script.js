@@ -504,7 +504,7 @@ function startMarsTimer() {
 }
 
 let gameScreenNew = document.getElementById('GameScreen') 
-window.addEventListener("keydown", (e) => {
+window.addEventListener("keydown", (e) => {      
    
     if (event.key === 'Enter' && gameScreenNew.style.visibility == 'visible') { 
         let gameScreenInput = document.getElementById('GameScreenInput')
@@ -513,7 +513,7 @@ window.addEventListener("keydown", (e) => {
        
         if(gameScreenInput.value == currentInputElement) {
             
-            finalPoints += 100
+            finalPoints += 100 
             document.getElementById('GameScreenHeader').innerHTML = `<p id="GameScreenHeaderText">${finalPoints} Pkt.</p>`
 
             clearInterval(timer);
