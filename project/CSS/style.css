@@ -54,6 +54,28 @@ img {
     cursor: pointer;
 }
 
+#TutorialArea {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#InnerTutorialBox {
+    width: 60%;
+    height: 60%;
+
+    background-color: #0a142899;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2vw;
+    padding: 2vw;
+}
+
 /************************************
 *************************************
 *************SCROLLBAR***************

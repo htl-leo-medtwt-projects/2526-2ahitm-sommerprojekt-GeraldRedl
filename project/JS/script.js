@@ -61,6 +61,35 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
 
     if(currentElement == "GameScreen") {
         document.getElementById('GameScreenAnswerResult').remove()
+    } else if(nextElement == "GameMode") {
+        showTutorial()
+    }
+}
+
+let body = document.getElementById('body')
+function showTutorial() {
+    body.innerHTML += 
+        `
+        <div id="TutorialArea">
+            <div id="InnerTutorialBox">
+                
+            </div>
+        </div>
+        `
+
+    addTutorials(0)
+}
+
+function addTutorials(index) {
+    if(tutorialData.length-tutorialData.length <= index && index <= tutorialData.length) {
+        document.getElementById('InnerTutorialBox').innerHTML = 
+            `
+            <img style="grid-column: 1/3; width: 100%;" src="${tutorialData[index].image}" alt="${index}">
+            <p style="grid-column: 1/3;">${tutorialData[index].text}</p>
+
+            <p onclick="addTutorials${index-1}">Letztes</p>
+            <p onclick="addTutorials${index+1}">Nächstes</p>
+            `
     }
 }
 
