@@ -80,17 +80,33 @@ function showTutorial() {
     addTutorials(0)
 }
 
+let allowedToClose = false;
 function addTutorials(index) {
-    if(tutorialData.length-tutorialData.length <= index && index <= tutorialData.length) {
+    if(tutorialData.length-tutorialData.length <= index && index < tutorialData.length) {
         document.getElementById('InnerTutorialBox').innerHTML = 
             `
             <img style="grid-column: 1/3; width: 100%;" src="${tutorialData[index].image}" alt="${index}">
-            <p style="grid-column: 1/3;">${tutorialData[index].text}</p>
+            <p id="TutorialText">${tutorialData[index].text}</p>
 
-            <p onclick="addTutorials${index-1}">Letztes</p>
-            <p onclick="addTutorials${index+1}">Nächstes</p>
+            <p id="LeftButtonTutorial" onclick="addTutorials(${index-1})">Letztes</p>
+            <p id="RightButtonTutorial" onclick="addTutorials(${index+1})">Nächstes</p> 
+            `
+
+        if(index == tutorialData.length-1) {
+            allowedToClose = true
+        }    
+    }
+
+    if(allowedToClose) {
+        document.getElementById('InnerTutorialBox').innerHTML +=
+            `
+            <p id="CloseTutorial" onclick="closeTutorial()">X</p>
             `
     }
+}
+
+function closeTutorial() {
+    document.getElementById('TutorialArea').remove()
 }
 
 /*********************************************************
