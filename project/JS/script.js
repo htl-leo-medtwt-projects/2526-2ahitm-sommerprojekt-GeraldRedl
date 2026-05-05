@@ -58,6 +58,10 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
     movePlanets(nextElement)
     clearInterval(timer);
     finalPoints = 0
+
+    if(currentElement == "GameScreen") {
+        document.getElementById('GameScreenAnswerResult').remove()
+    }
 }
 
 /*********************************************************
@@ -399,7 +403,6 @@ function modeChoose(index) {
 
 function chooseAnswer(answer, index, elem) {
     let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
-    gameScreenAnswerResult.style.visibility = "visible"
     
     let allAnswers = document.querySelectorAll('.GameScreenChooseAnswer')
     allAnswers.forEach((GameScreenChooseAnswer) => {
@@ -412,28 +415,45 @@ function chooseAnswer(answer, index, elem) {
             let currentTop = progress * 50;
             finalPoints += (50-currentTop)*2;
 
-            console.log(elem)
             elem.style.color = "green"
         } else {
-            
+            elem.style.color = "red"
+
+            allAnswers.forEach((GameScreenChooseAnswer) => {
+                if(GameScreenChooseAnswer.textContent == gameAvailableArray[playArray[index][0]].name) {
+                    GameScreenChooseAnswer.style.color = "green"
+                }
+            })
         }
     } else {
         if(answer == gameAvailableArray[playArray[index][0]].capital) {
             
             let currentTop = progress * 50;
             finalPoints += (50-currentTop)*2; 
+
+            elem.style.color = "green"
         } else {
+            elem.style.color = "red"
             
+            allAnswers.forEach((GameScreenChooseAnswer) => {
+                if(GameScreenChooseAnswer.textContent == gameAvailableArray[playArray[index][0]].name) {
+                    GameScreenChooseAnswer.style.color = "green"
+                }
+            })
         }
     }
     clearInterval(timer);
 
     document.getElementById('GameScreenHeader').innerHTML = `<p id="GameScreenHeaderText">${finalPoints} Pkt.</p>`
-    gameScreenAnswerResult.innerHTML = `<p id="ContinueAnswer" onclick="modeChoose(${index+1})">Weiter</p>`
     
     if(index == finalAmount-1) {
+        gameScreenAnswerResult.style.visibility = "visible"
         gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
         finalPoints = 0
+    } else {
+        setTimeout(function() {
+            modeChoose(index+1)
+        }, 750)
     }
 
     
