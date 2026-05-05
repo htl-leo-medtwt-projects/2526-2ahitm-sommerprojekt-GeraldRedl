@@ -367,6 +367,8 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
     }
 } 
 
+let currentInputElement = ""
+let currentIndex
 function modeChoose(index) {
     let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
     gameScreenAnswerResult.style.visibility = 'hidden'
@@ -392,10 +394,18 @@ function modeChoose(index) {
         let GameScreenInputFlagArea = document.getElementById('GameScreenInputFlagArea')
 
         if(finalInstruction == 'flag') {
-            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
+            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenInputCountryFlag" src="${gameAvailableArray[playArray[index][0]].flag}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         } else {
-            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
+            GameScreenInputFlagArea.innerHTML = `<img id="GameScreenInputCountryFlag" src="${gameAvailableArray[playArray[index][0]].coatOfArms}" alt="${gameAvailableArray[playArray[index][0]].name}">`
         }
+
+        if(finalSolution == 'name') {
+            currentInputElement = gameAvailableArray[playArray[index][0]].name
+        } else {
+            currentInputElement = gameAvailableArray[playArray[index][0]].capital
+        }
+
+        currentIndex = index
     }
     document.getElementById('GameScreenHeaderAmount').innerHTML = `<p>${index+1}/${finalAmount}</p>`
     startMarsTimer()
@@ -477,7 +487,7 @@ function startMarsTimer() {
 
     timer = setInterval(function () {
 
-        timeLeft--;
+        timeLeft--; 
 
         progress = (duration - timeLeft) / duration;
 
@@ -492,3 +502,42 @@ function startMarsTimer() {
 
     }, 1000);
 }
+
+let gameScreenNew = document.getElementById('GameScreen') 
+window.addEventListener("keydown", (e) => {
+   
+    if (event.key === 'Enter' && gameScreenNew.style.visibility == 'visible') { 
+        let gameScreenInput = document.getElementById('GameScreenInput')
+        let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
+        console.log('Enter-Taste wurde gedrückt!');
+       
+        if(gameScreenInput.value == currentInputElement) {
+            
+            finalPoints += 100
+            document.getElementById('GameScreenHeader').innerHTML = `<p id="GameScreenHeaderText">${finalPoints} Pkt.</p>`
+
+            clearInterval(timer);
+            gameScreenInput.value = ""
+            
+            if(currentIndex == finalAmount-1) {
+                gameScreenAnswerResult.style.visibility = "visible"
+                gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
+                finalPoints = 0
+            } else {
+                modeChoose(currentIndex+1)
+            }
+        } else {
+            clearInterval(timer);
+            gameScreenInput.value = ""
+            
+            if(currentIndex == finalAmount-1) {
+                gameScreenAnswerResult.style.visibility = "visible"
+                gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
+                finalPoints = 0
+            } else {
+                modeChoose(currentIndex+1)
+            }
+        }
+
+    }
+});

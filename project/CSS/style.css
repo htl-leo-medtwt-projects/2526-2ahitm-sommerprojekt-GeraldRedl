@@ -528,7 +528,18 @@ img {
 }
 
 #GameScreenInputFlagArea {
+    display: flex;
     width: 70%;
     margin-right: auto;
     margin-left: auto;
+    justify-content: center;
+    align-items: center;
+}
+
+#GameScreenInputCountryFlag {
+    height: 35vw;
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+    grid-column: 1/3;
 }
