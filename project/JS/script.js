@@ -1,9 +1,9 @@
 AOS.init();
-let earth = document.getElementById('RotatingEarth');
-let moon = document.getElementById('RotatingMoon');
 
 function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
 
+    let earth = document.getElementById('RotatingEarth');
+    let moon = document.getElementById('RotatingMoon');
     if(element == 'Homepage') { // Bewegung zur Homepage
         earth.style.height = '90%'
         earth.style.top = '5%'
@@ -44,6 +44,8 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
         moon.style.height = '45%'
         moon.style.top = '-25%'
         moon.style.left = '70%' 
+
+        console.log('fvgbhjiko')
     }
 
 }
@@ -279,12 +281,14 @@ function bothChoosen() {
 **********************************************************
 *********************************************************/
 
-let gameScreen = document.getElementById('ActualGameScreen')
+
 
 let gameAvailableArray
 let playArray
 function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
-    gameScreen.innerHTML = 
+    console.log('adadadad')
+    let actualGameScreen = document.getElementById('ActualGameScreen')
+    actualGameScreen.innerHTML = 
         `
         <div id="superiorGameOptions">
             <div id="furtherGameOptions">
@@ -298,6 +302,9 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
             </div>
         </div>
         `
+    console.log(actualGameScreen)
+    console.log(actualGameScreen.isConnected)
+
 
     gameAvailableArray = [] // Erstellt einen leeren Array
     for(let i = 0; i < countryData.length; i++) {
@@ -384,8 +391,9 @@ function startGame() {
 
 let finalPoints = 0;
 function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbildschirms
+    let actualGameScreen = document.getElementById('ActualGameScreen')
     if(modeType == "Choose") { // Multiple Choice
-        gameScreen.innerHTML = 
+        actualGameScreen.innerHTML = 
             `
             <div id="GameScreenHeader"><p id="GameScreenHeaderText">${finalPoints} Pkt.</p></div>
             <div id="GameScreenHeaderAmount"><p>0/${finalAmount}</p></div>
@@ -397,7 +405,7 @@ function generateIndividualMode(modeType) { // Generieren des jeweiligen Modusbi
 
         modeChoose(0)
     } else if(modeType == "Input") {
-        gameScreen.innerHTML = 
+        actualGameScreen.innerHTML = 
             `
             <div id="GameScreenHeader"><p id="GameScreenHeaderText">${finalPoints} Pkt.</p></div>
             <div id="GameScreenHeaderAmount"><p>0/${finalAmount}</p></div>
@@ -548,9 +556,9 @@ function startMarsTimer() {
     }, 1000);
 }
 
-let gameScreenNew = document.getElementById('GameScreen') 
+ 
 window.addEventListener("keydown", (e) => {      
-   
+    let gameScreenNew = document.getElementById('GameScreen')
     if (event.key === 'Enter' && gameScreenNew.style.visibility == 'visible') { 
         let gameScreenInput = document.getElementById('GameScreenInput')
         let gameScreenAnswerResult = document.getElementById('GameScreenAnswerResult')
