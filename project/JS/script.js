@@ -123,17 +123,64 @@ function closeTutorial() {
 
 function generateOptionsVideo() {
     let optionsArea = document.getElementById('OptionsSetSetArea')
-    optionsArea.innerHTML = 
-        `
-        <p>VIDEO EINSTELLUNG ODER SO</p>
-        `
+    let current = loadSetting('brightness') || 100
+    // Verwende dieselbe Struktur wie die Konto-Einstellungen
+    optionsArea.innerHTML = `
+        <div style="padding:1vw;">
+            <h2 style="margin:0 0 1vw 0;">VIDEO</h2>
+            <div style="display:flex; gap:0.8vw;">
+                <button class="OptionButton" onclick="setSiteBrightness(100)">Zurücksetzen</button>
+            </div>
+            <div id="VideoContainer" style="margin-top:1vw;">
+                <div class="AccountScrollBox">
+                    <div class="AccountGrid">
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('video_brightness')">Bildschirmhelligkeit</button>
+                            <div id="video_brightness" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Aktuell</div><div class="RoundRight"><span id="BrightnessValue">${current}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input id="BrightnessRange" class="RangeInput" type="range" min="50" max="150" step="1" value="${current}" oninput="setSiteBrightness(this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
+}
+
+function saveSetting(key, value) {
+    let data = loadTerraCheckData()
+    data.settings = data.settings || {}
+    data.settings[key] = value
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+function loadSetting(key) {
+    let data = loadTerraCheckData()
+    if(!data.settings) return null
+    return data.settings[key]
+}
+
+function setSiteBrightness(val) {
+    let v = Number(val)
+    document.body.style.filter = `brightness(${v}%)`
+    let span = document.getElementById('BrightnessValue')
+    if(span) span.textContent = v + '%'
+    saveSetting('brightness', v)
+}
+
+function applySavedBrightness() {
+    let v = loadSetting('brightness')
+    if(v == null) return
+    document.body.style.filter = `brightness(${v}%)`
 }
 
 function generateOptionsAudio() {
     let optionsArea = document.getElementById('OptionsSetSetArea')
     optionsArea.innerHTML = 
         `
-        <p>AUDIO EINSTELLUNG ODER SO</p>
+        <p>AUDIO WIRD NOCH INTEGRIERT</p>
         `
 }
 
@@ -661,24 +708,24 @@ function getSavedAccountHtml() {
     let data = loadTerraCheckData()
     if(!data.history || data.history.length == 0) return `<p>Keine gespeicherten Runden.</p>`
 
-    // Gruppiere nach Map -> Punkte
+    // Gruppiere nach Map -> Runden
     let byMap = {}
     data.history.forEach((r, i) => {
         let map = r.choosenMap || 'Unbekannt'
         if(!byMap[map]) byMap[map] = {}
-        let points = r.points == null ? '0' : String(r.points)
-        if(!byMap[map][points]) byMap[map][points] = []
-        byMap[map][points].push({ idx: i+1, entry: r })
+        let rounds = r.amount == null ? '0' : String(r.amount)
+        if(!byMap[map][rounds]) byMap[map][rounds] = []
+        byMap[map][rounds].push({ idx: i+1, entry: r })
     })
 
     let out = `<div class="AccountScrollBox"><div class="AccountGrid">`
     Object.keys(byMap).sort().forEach((mapName, mi) => {
         let mapId = `map_${mi}`
         out += `<div class="MapGroup"><button class="MapToggle" onclick="toggleSection('${mapId}')">${mapName} (${Object.keys(byMap[mapName]).length})</button><div id="${mapId}" class="PointsGroup" style="display:none;">`
-        Object.keys(byMap[mapName]).sort((a,b)=>Number(b)-Number(a)).forEach((points) => {
-            let ptsId = `${mapId}_pts_${points}`
-            out += `<button class="PointsToggle" onclick="toggleSection('${ptsId}')">${points} Pkt. (${byMap[mapName][points].length})</button><div id="${ptsId}" style="display:none;" class="PointsList">`
-            byMap[mapName][points].forEach((item) => {
+        Object.keys(byMap[mapName]).sort((a,b)=>Number(b)-Number(a)).forEach((rounds) => {
+            let ptsId = `${mapId}_pts_${rounds}`
+            out += `<button class="PointsToggle" onclick="toggleSection('${ptsId}')">${rounds} Runden (${byMap[mapName][rounds].length})</button><div id="${ptsId}" style="display:none;" class="PointsList">`
+            byMap[mapName][rounds].forEach((item) => {
                 let e = item.entry
                 out += `<div class="AccountRound"><div class="RoundLeft">#${item.idx} · ${e.mode || '-'} · ${e.amount || '-'} Runden</div><div class="RoundRight">Instr: ${e.instruction || '-'} · Sol: ${e.solution || '-'} · Pkt: ${e.points || 0}</div></div>`
             })
@@ -711,3 +758,4 @@ function saveFinalResult() {
 
 // Initial load of saved data (tutorial flag, history)
 loadTerraCheckData()
+applySavedBrightness()

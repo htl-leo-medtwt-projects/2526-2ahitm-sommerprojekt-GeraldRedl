@@ -715,3 +715,15 @@ img {
 }
 
 #ReopenTutorialButton:hover { filter: brightness(1.06); transform: translateY(-1px) }
+
+/* Video options: brightness control styling */
+.OptionsPanel { padding: 1.2vw; }
+.OptionsHeader { margin: 0 0 1vw 0; font-family: Amoria; font-size: 2.2vw; color: #e8f1ff; }
+.OptionsColumn { display:flex; flex-direction:column; gap:0.9vw; }
+.BrightnessLabel { font-family: Amoria; color: #eaf3ff; font-size: 1.9vw; }
+.RangeInput { width: 100%; display: block; accent-color: #b33b3b; height: 0.8vw; }
+.RangeInput::-webkit-slider-runnable-track { background: linear-gradient(90deg, #0a1428, #142953); height: 0.6vw; border-radius: 6px; }
+.RangeInput::-webkit-slider-thumb { -webkit-appearance: none; width: 1.4vw; height: 1.4vw; border-radius: 50%; background: #b33b3b; margin-top: -0.36vw; }
+.OptionButton { padding: 0.6vw 1vw; border-radius: 6px; background-color: #0a142899; color: white; border: none; cursor: pointer; font-family: Amoria; }
+.OptionButton:hover { filter: brightness(1.06); transform: translateY(-1px) }
+#BrightnessValue { font-weight: 700; color: #fff; margin-left: 0.6vw }
