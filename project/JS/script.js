@@ -121,10 +121,9 @@ function closeTutorial() {
 
 
 
-function generateOptionsVideo() {
+function generateOptionsVideo() { // Video-Einstellungen
     let optionsArea = document.getElementById('OptionsSetSetArea')
     let current = loadSetting('brightness') || 100
-    // Verwende dieselbe Struktur wie die Konto-Einstellungen
     optionsArea.innerHTML = `
         <div style="padding:1vw;">
             <h2 style="margin:0 0 1vw 0;">VIDEO</h2>
@@ -149,20 +148,20 @@ function generateOptionsVideo() {
         </div>`
 }
 
-function saveSetting(key, value) {
+function saveSetting(key, value) { // Speichere Video-Einstellung im LocalStorage
     let data = loadTerraCheckData()
     data.settings = data.settings || {}
     data.settings[key] = value
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-function loadSetting(key) {
+function loadSetting(key) { // Lade gespeicherte Video-Einstellung
     let data = loadTerraCheckData()
     if(!data.settings) return null
     return data.settings[key]
 }
 
-function setSiteBrightness(val) {
+function setSiteBrightness(val) { // Setze Helligkeit der gesamten Seite
     let v = Number(val)
     document.body.style.filter = `brightness(${v}%)`
     let span = document.getElementById('BrightnessValue')
@@ -170,7 +169,7 @@ function setSiteBrightness(val) {
     saveSetting('brightness', v)
 }
 
-function applySavedBrightness() {
+function applySavedBrightness() { // Wende gespeicherte Helligkeit an
     let v = loadSetting('brightness')
     if(v == null) return
     document.body.style.filter = `brightness(${v}%)`
@@ -184,7 +183,7 @@ function generateOptionsAudio() {
         `
 }
 
-function generateOptionsKonto() {
+function generateOptionsKonto() { // Konto-Einstellungen
     let optionsArea = document.getElementById('OptionsSetSetArea')
     // Konto-Bereich: zeigt gespeicherte Runden und Clear-Button
     let html = `
@@ -201,7 +200,7 @@ function generateOptionsKonto() {
     document.getElementById('AccountContainer').innerHTML = getSavedAccountHtml()
 }
 
-function reopenTutorial() {
+function reopenTutorial() { // Tutorial erneut anzeigen
     if(document.getElementById('TutorialArea')) return
     allowedToClose = false
     showTutorial()
@@ -673,7 +672,7 @@ window.addEventListener("keydown", (e) => {
 
 const STORAGE_KEY = 'TerraCheckResult'
 
-function loadTerraCheckData() {
+function loadTerraCheckData() { // Lade LocalStorage-Daten
     let raw = localStorage.getItem(STORAGE_KEY)
     if(!raw) return { tutorialWatched: false, history: [] }
     try {
@@ -686,7 +685,7 @@ function loadTerraCheckData() {
     }
 }
 
-function saveTerraCheckData(entry) {
+function saveTerraCheckData(entry) { // Speichere Runde / Tutorial-Flag
     let data = loadTerraCheckData()
     if(entry && entry.tutorialWatched) {
         data.tutorialWatched = true
@@ -698,13 +697,13 @@ function saveTerraCheckData(entry) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
 }
 
-function clearTerraCheckData() {
+function clearTerraCheckData() { // Lösche LocalStorage
     localStorage.removeItem(STORAGE_KEY)
     allowedToClose = false
     generateOptionsKonto()
 }
 
-function getSavedAccountHtml() {
+function getSavedAccountHtml() { // Erzeuge Konto-HTML aus LocalStorage
     let data = loadTerraCheckData()
     if(!data.history || data.history.length == 0) return `<p>Keine gespeicherten Runden.</p>`
 
@@ -737,14 +736,13 @@ function getSavedAccountHtml() {
     return out
 }
 
-function toggleSection(id) {
+function toggleSection(id) { // Ein-/Ausklappen von Gruppen
     let el = document.getElementById(id)
     if(!el) return
     el.style.display = el.style.display == 'none' ? 'block' : 'none'
 }
 
-function saveFinalResult() {
-    // Speichert die gerade beendete Runde
+function saveFinalResult() { // Speichere das aktuelle Ergebnis in LocalStorage
     let round = {
         points: finalPoints,
         mode: finalGameMode,
@@ -756,6 +754,6 @@ function saveFinalResult() {
     saveTerraCheckData(round)
 }
 
-// Initial load of saved data (tutorial flag, history)
+// gespeicherte Daten und Helligkeit anwenden
 loadTerraCheckData()
 applySavedBrightness()
