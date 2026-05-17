@@ -64,7 +64,7 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
     if(currentElement == "GameScreen") {
         document.getElementById('GameScreenAnswerResult').remove()
     } else if(nextElement == "GameMode") {
-        showTutorial()
+        if(!allowedToClose) showTutorial()
     }
 }
 
@@ -87,7 +87,7 @@ function addTutorials(index) {
     if(tutorialData.length-tutorialData.length <= index && index < tutorialData.length) {
         document.getElementById('InnerTutorialBox').innerHTML = 
             `
-            <img style="grid-column: 1/3; width: 100%;" src="${tutorialData[index].image}" alt="${index}">
+            <img style="grid-column: 1/3; width: 80%; margin: 0 auto 0 auto" src="${tutorialData[index].image}" alt="${index}">
             <p id="TutorialText">${tutorialData[index].text}</p>
 
             <p id="LeftButtonTutorial" onclick="addTutorials(${index-1})">Letztes</p>
@@ -108,6 +108,8 @@ function addTutorials(index) {
 }
 
 function closeTutorial() {
+    allowedToClose = true
+    saveTerraCheckData({ tutorialWatched: true })
     document.getElementById('TutorialArea').remove()
 }
 
@@ -117,9 +119,10 @@ function closeTutorial() {
 **********************************************************
 *********************************************************/
 
-let optionsArea = document.getElementById('OptionsSetSetArea')
+
 
 function generateOptionsVideo() {
+    let optionsArea = document.getElementById('OptionsSetSetArea')
     optionsArea.innerHTML = 
         `
         <p>VIDEO EINSTELLUNG ODER SO</p>
@@ -127,6 +130,7 @@ function generateOptionsVideo() {
 }
 
 function generateOptionsAudio() {
+    let optionsArea = document.getElementById('OptionsSetSetArea')
     optionsArea.innerHTML = 
         `
         <p>AUDIO EINSTELLUNG ODER SO</p>
@@ -134,10 +138,26 @@ function generateOptionsAudio() {
 }
 
 function generateOptionsKonto() {
-    optionsArea.innerHTML = 
-        `
-        <p>KONTO EINSTELLUNG ODER SO</p>
-        `
+    let optionsArea = document.getElementById('OptionsSetSetArea')
+    // Konto-Bereich: zeigt gespeicherte Runden und Clear-Button
+    let html = `
+        <div style="padding:1vw;">
+            <h2 style="margin:0 0 1vw 0;">KONTO</h2>
+            <div style="display:flex; gap:0.8vw;">
+                <button id="ClearStorageButton" onclick="clearTerraCheckData()">LocalStorage löschen</button>
+                <button id="ReopenTutorialButton" onclick="reopenTutorial()">Tutorial erneut anzeigen</button>
+            </div>
+            <div id="AccountContainer" style="margin-top:1vw;"></div>
+        </div>
+    `
+    optionsArea.innerHTML = html
+    document.getElementById('AccountContainer').innerHTML = getSavedAccountHtml()
+}
+
+function reopenTutorial() {
+    if(document.getElementById('TutorialArea')) return
+    allowedToClose = false
+    showTutorial()
 }
 
 /*********************************************************
@@ -512,6 +532,7 @@ function chooseAnswer(answer, index, elem) {
     if(index == finalAmount-1) {
         gameScreenAnswerResult.style.visibility = "visible"
         gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
+        saveFinalResult()
         finalPoints = 0
     } else {
         setTimeout(function() {
@@ -575,6 +596,7 @@ window.addEventListener("keydown", (e) => {
             if(currentIndex == finalAmount-1) {
                 gameScreenAnswerResult.style.visibility = "visible"
                 gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
+                saveFinalResult()
                 finalPoints = 0
             } else {
                 modeChoose(currentIndex+1)
@@ -586,6 +608,7 @@ window.addEventListener("keydown", (e) => {
             if(currentIndex == finalAmount-1) {
                 gameScreenAnswerResult.style.visibility = "visible"
                 gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
+                saveFinalResult()
                 finalPoints = 0
             } else {
                 modeChoose(currentIndex+1)
@@ -594,3 +617,97 @@ window.addEventListener("keydown", (e) => {
 
     }
 });
+
+/*********************************************************
+**********************************************************
+**************LOCALSTORAGE-STARKE-KI-HILFE****************
+**********************************************************
+*********************************************************/
+
+const STORAGE_KEY = 'TerraCheckResult'
+
+function loadTerraCheckData() {
+    let raw = localStorage.getItem(STORAGE_KEY)
+    if(!raw) return { tutorialWatched: false, history: [] }
+    try {
+        let obj = JSON.parse(raw)
+        if(obj.tutorialWatched) allowedToClose = true
+        if(!obj.history) obj.history = []
+        return obj
+    } catch(e) {
+        return { tutorialWatched: false, history: [] }
+    }
+}
+
+function saveTerraCheckData(entry) {
+    let data = loadTerraCheckData()
+    if(entry && entry.tutorialWatched) {
+        data.tutorialWatched = true
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+        return
+    }
+    if(!data.history) data.history = []
+    if(entry) data.history.push(entry)
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+}
+
+function clearTerraCheckData() {
+    localStorage.removeItem(STORAGE_KEY)
+    allowedToClose = false
+    generateOptionsKonto()
+}
+
+function getSavedAccountHtml() {
+    let data = loadTerraCheckData()
+    if(!data.history || data.history.length == 0) return `<p>Keine gespeicherten Runden.</p>`
+
+    // Gruppiere nach Map -> Punkte
+    let byMap = {}
+    data.history.forEach((r, i) => {
+        let map = r.choosenMap || 'Unbekannt'
+        if(!byMap[map]) byMap[map] = {}
+        let points = r.points == null ? '0' : String(r.points)
+        if(!byMap[map][points]) byMap[map][points] = []
+        byMap[map][points].push({ idx: i+1, entry: r })
+    })
+
+    let out = `<div class="AccountScrollBox"><div class="AccountGrid">`
+    Object.keys(byMap).sort().forEach((mapName, mi) => {
+        let mapId = `map_${mi}`
+        out += `<div class="MapGroup"><button class="MapToggle" onclick="toggleSection('${mapId}')">${mapName} (${Object.keys(byMap[mapName]).length})</button><div id="${mapId}" class="PointsGroup" style="display:none;">`
+        Object.keys(byMap[mapName]).sort((a,b)=>Number(b)-Number(a)).forEach((points) => {
+            let ptsId = `${mapId}_pts_${points}`
+            out += `<button class="PointsToggle" onclick="toggleSection('${ptsId}')">${points} Pkt. (${byMap[mapName][points].length})</button><div id="${ptsId}" style="display:none;" class="PointsList">`
+            byMap[mapName][points].forEach((item) => {
+                let e = item.entry
+                out += `<div class="AccountRound"><div class="RoundLeft">#${item.idx} · ${e.mode || '-'} · ${e.amount || '-'} Runden</div><div class="RoundRight">Instr: ${e.instruction || '-'} · Sol: ${e.solution || '-'} · Pkt: ${e.points || 0}</div></div>`
+            })
+            out += `</div>`
+        })
+        out += `</div></div>`
+    })
+    out += `</div></div>`
+    return out
+}
+
+function toggleSection(id) {
+    let el = document.getElementById(id)
+    if(!el) return
+    el.style.display = el.style.display == 'none' ? 'block' : 'none'
+}
+
+function saveFinalResult() {
+    // Speichert die gerade beendete Runde
+    let round = {
+        points: finalPoints,
+        mode: finalGameMode,
+        instruction: finalInstruction,
+        solution: finalSolution,
+        choosenMap: choosenMap,
+        amount: finalAmount
+    }
+    saveTerraCheckData(round)
+}
+
+// Initial load of saved data (tutorial flag, history)
+loadTerraCheckData()
