@@ -255,7 +255,20 @@ function generateStudyData() {
         rulesBoxArea.innerHTML += 
             `
             <section class="Box" data-first-letter="${countryDataArray[i].name.charAt(0).toUpperCase()}">
-                <p>${countryDataArray[i].name}</p>
+                <div class="rulesSectionGrid">
+                    <div class="leftColumn">
+                        <div class="textInfo">
+                            <p>Ländername: ${countryDataArray[i].name}</p>
+                            <p>Hauptstadt: ${countryDataArray[i].capital}</p>
+                            <p>Kontinent: ${countryDataArray[i].continent}</p>
+                        </div>
+                        <img src="${countryDataArray[i].flag}" alt="Flagge" class="flagImage">
+                    </div>
+                    <div class="rightColumn">
+                        <img src="${countryDataArray[i].coatOfArms}" alt="Wappen" class="coaImage">
+                    </div>
+                </div>
+                
             </section>
             `
     }
