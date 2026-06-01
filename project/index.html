@@ -9,8 +9,8 @@
     <script src="./aos_libary/aos_libary/aos_script.js" defer></script>
 
     <link rel="stylesheet" href="./CSS/style.css">
-    <script src="./JS/script.js" defer></script>
     <script src="./JS/data.js" defer></script>
+    <script src="./JS/script.js" defer></script>
     <script src="./JS/tutorial.js" defer></script>
 </head>
 <body id="body">
@@ -23,7 +23,7 @@
             <p id="HomepageInputGridHeader">TERRACHECK</p>
             <p data-aos="fade-right" data-aos-delay="300" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'GameMode')">SPIELEN</p>
             <p data-aos="fade-right" data-aos-delay="450" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Options')">OPTIONEN</p>
-            <p data-aos="fade-right" data-aos-delay="600" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">REGELN</p>
+            <p data-aos="fade-right" data-aos-delay="600" class="HomepageInputGridText" onclick="showNextScreen('Homepage', 'Rules')">LÄNDER</p>
         </div>
     </div>
 
@@ -42,10 +42,12 @@
 
     <div id="Rules">
         <img class="ReturnButton" onclick="showNextScreen('Rules', 'Homepage')" src="./IMG/Return.png" alt="Return">
+        <div id="RulesNavigation">
+            <p class="RulesNavButton" onclick="filterByAllCountries()">ALL</p>
+            <div id="RulesLetterContainer"></div>
+        </div>
         <div id="RulesBoxArea">
-            <section class="Box">REGEL FELD 1</section>
-            <section class="Box">REGEL FELD 2</section>
-            <section class="Box">REGEL FELD 3</section>
+            
         </div>
     </div>
 

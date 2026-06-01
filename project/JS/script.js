@@ -44,8 +44,6 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
         moon.style.height = '45%'
         moon.style.top = '-25%'
         moon.style.left = '70%' 
-
-        console.log('fvgbhjiko')
     }
 
 }
@@ -65,6 +63,8 @@ function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
         document.getElementById('GameScreenAnswerResult').remove()
     } else if(nextElement == "GameMode") {
         if(!allowedToClose) showTutorial()
+    } else if(nextElement == "Rules") {
+        filterByAllCountries();
     }
 }
 
@@ -213,7 +213,7 @@ function reopenTutorial() { // Tutorial erneut anzeigen
 *********************************************************/
 
 let rulesScreen = document.getElementById('Rules')
-let boxes = document.querySelectorAll(".Box");
+let boxes = [];
 let current = 0;
 let isAnimating = false;
 
@@ -223,9 +223,8 @@ function updateBoxes() { // Bewegung der Boxen nach Oben/Unten
     });
 }
 
-updateBoxes();
-
 window.addEventListener("wheel", (e) => { // EvenListener für das Wheel
+    rulesScreen = document.getElementById('Rules')
     if (isAnimating || rulesScreen.style.visibility == 'hidden') return; // Rauswurf während Animationen/inaktivem Bildschirm
 
     if (e.deltaY > 0 && current < boxes.length - 1) { // Berechnung der Richtung des Scroll Wheels
@@ -243,6 +242,104 @@ window.addEventListener("wheel", (e) => { // EvenListener für das Wheel
         isAnimating = false;
     }, 600);
 });
+
+let countryDataArray = []
+let currentFilter = 'ALL'; // Track current filter
+
+function generateStudyData() {
+    rulesBoxArea = document.getElementById('RulesBoxArea')
+    rulesBoxArea.innerHTML = ''; // Clear existing boxes
+
+    countryDataArray = countryData
+    for(let i = 0; i < countryDataArray.length; i++) {
+        rulesBoxArea.innerHTML += 
+            `
+            <section class="Box" data-first-letter="${countryDataArray[i].name.charAt(0).toUpperCase()}">
+                <p>${countryDataArray[i].name}</p>
+            </section>
+            `
+    }
+
+    boxes = document.querySelectorAll(".Box");
+    generateLetterNavigation();
+    updateBoxes();
+}
+
+function generateLetterNavigation() { // Generiert Buchstaben-Navigationsbuttons
+    let letterContainer = document.getElementById('RulesLetterContainer')
+    if(!letterContainer) return
+    
+    letterContainer.innerHTML = ''
+    let letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('')
+    
+    letters.forEach(letter => {
+        let letterButton = document.createElement('p')
+        letterButton.className = 'RulesNavButton'
+        letterButton.textContent = letter
+        letterButton.onclick = () => filterByLetter(letter)
+        letterContainer.appendChild(letterButton)
+    })
+    
+    updateNavigationButtons()
+}
+
+function filterByLetter(letter) { // Filtert Länder nach Anfangsbuchstabe
+    currentFilter = letter
+    let allBoxes = document.querySelectorAll('.Box')
+    
+    if(allBoxes.length === 0) {
+        generateStudyData()
+        return
+    }
+    
+    allBoxes.forEach(box => {
+        if(box.dataset.firstLetter === letter) {
+            box.style.display = 'flex'
+        } else {
+            box.style.display = 'none'
+        }
+    })
+    
+    boxes = Array.from(allBoxes).filter(box => box.style.display !== 'none')
+    current = 0
+    updateBoxes()
+    updateNavigationButtons()
+}
+
+function filterByAllCountries() { // Zeigt alle Länder an
+    currentFilter = 'ALL'
+    let allBoxes = document.querySelectorAll('.Box')
+    
+    if(allBoxes.length === 0) {
+        generateStudyData()
+        return
+    }
+    
+    allBoxes.forEach(box => {
+        box.style.display = 'flex'
+    })
+    
+    boxes = Array.from(allBoxes)
+    current = 0
+    updateBoxes()
+    updateNavigationButtons()
+}
+
+function updateNavigationButtons() { // Markiert aktiven Navigationsbutton
+    let allButtons = document.querySelectorAll('.RulesNavButton')
+    
+    allButtons.forEach(button => {
+        button.classList.remove('active')
+        
+        if(button.textContent === 'ALL' && currentFilter === 'ALL') {
+            button.classList.add('active')
+        } else if(button.textContent === currentFilter) {
+            button.classList.add('active')
+        }
+    })
+}
+
+generateStudyData()
 
 /*********************************************************
 **********************************************************
@@ -352,7 +449,6 @@ function bothChoosen() {
 let gameAvailableArray
 let playArray
 function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
-    console.log('adadadad')
     let actualGameScreen = document.getElementById('ActualGameScreen')
     actualGameScreen.innerHTML = 
         `
@@ -368,9 +464,6 @@ function generateFurtherOptions() { // Generiert die Auswahl von "Schwierigkeit"
             </div>
         </div>
         `
-    console.log(actualGameScreen)
-    console.log(actualGameScreen.isConnected)
-
 
     gameAvailableArray = [] // Erstellt einen leeren Array
     for(let i = 0; i < countryData.length; i++) {
@@ -707,7 +800,7 @@ function getSavedAccountHtml() { // Erzeuge Konto-HTML aus LocalStorage
     let data = loadTerraCheckData()
     if(!data.history || data.history.length == 0) return `<p>Keine gespeicherten Runden.</p>`
 
-    // Gruppiere nach Map -> Runden
+    // Gruppiere nach Map und nach Runden
     let byMap = {}
     data.history.forEach((r, i) => {
         let map = r.choosenMap || 'Unbekannt'
