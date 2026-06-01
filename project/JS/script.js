@@ -176,12 +176,75 @@ function applySavedBrightness() { // Wende gespeicherte Helligkeit an
     document.body.style.filter = `brightness(${v}%)`
 }
 
-function generateOptionsAudio() {
+function generateOptionsAudio() { // Audio-Einstellungen
     let optionsArea = document.getElementById('OptionsSetSetArea')
-    optionsArea.innerHTML = 
-        `
-        <p>AUDIO WIRD NOCH INTEGRIERT</p>
-        `
+    optionsArea.innerHTML = `
+        <div style="padding:1vw;">
+            <h2 style="margin:0 0 1vw 0;">AUDIO</h2>
+            <div style="display:flex; gap:0.8vw;">
+                <button class="OptionButton" onclick="resetAudioVolumes()">Zurücksetzen</button>
+            </div>
+            <div id="AudioContainer" style="margin-top:1vw;">
+                <div class="AccountScrollBox">
+                    <div class="AccountGrid">
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_background')">Hintergrundmusik</button>
+                            <div id="audio_background" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="BackgroundMusicValue">${audioVolumes.backgroundMusic}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.backgroundMusic}" oninput="setAudioVolume('backgroundMusic', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_start')">Startton</button>
+                            <div id="audio_start" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="StartSoundValue">${audioVolumes.startSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.startSound}" oninput="setAudioVolume('startSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_correct')">Richtige Antwort</button>
+                            <div id="audio_correct" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="CorrectSoundValue">${audioVolumes.correctSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.correctSound}" oninput="setAudioVolume('correctSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_wrong')">Falsche Antwort</button>
+                            <div id="audio_wrong" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="WrongSoundValue">${audioVolumes.wrongSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.wrongSound}" oninput="setAudioVolume('wrongSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_maxpoints')">Max Punkte</button>
+                            <div id="audio_maxpoints" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="MaxPointsSoundValue">${audioVolumes.maxPointsSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.maxPointsSound}" oninput="setAudioVolume('maxPointsSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_highscore')">Neuer Highscore</button>
+                            <div id="audio_highscore" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="HighscoreSoundValue">${audioVolumes.highscoreSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.highscoreSound}" oninput="setAudioVolume('highscoreSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>`
 }
 
 function generateOptionsKonto() { // Konto-Einstellungen
@@ -873,7 +936,17 @@ function saveFinalResult() { // Speichere das aktuelle Ergebnis in LocalStorage
 **********************************************************
 *********************************************************/
 
-let audioAllowed = false;
+let audioAllowed = false
+let backgroundMusicPlaying = false
+let backgroundMusicElement = null
+let audioVolumes = {
+    startSound: 100,
+    correctSound: 100,
+    wrongSound: 100,
+    maxPointsSound: 100,
+    highscoreSound: 100,
+    backgroundMusic: 100
+}
 
 function allowAudio(allowed) { // Audio-Einstellung speichern
     audioAllowed = allowed
@@ -886,37 +959,121 @@ function allowAudio(allowed) { // Audio-Einstellung speichern
     
     if(allowed) {
         playStartSound()
+        setTimeout(() => {
+            playBackgroundMusic()
+        }, 1500)
+    }
+}
+
+function setAudioVolume(audioType, volume) { // Setze Audio-Lautstärke
+    let v = Number(volume)
+    audioVolumes[audioType] = v
+    let span = document.getElementById(audioType.charAt(0).toUpperCase() + audioType.slice(1) + 'Value')
+    if(span) span.textContent = v + '%'
+    
+    let data = loadTerraCheckData()
+    data.audioVolumes = audioVolumes
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    
+    if(audioType === 'backgroundMusic') {
+        updateBackgroundMusicVolume()
+    }
+}
+
+function resetAudioVolumes() { // Setze alle Audio-Lautstärken zurück
+    audioVolumes = {
+        startSound: 100,
+        correctSound: 100,
+        wrongSound: 100,
+        maxPointsSound: 100,
+        highscoreSound: 100,
+        backgroundMusic: 100
+    }
+    
+    document.getElementById('BackgroundMusicValue').textContent = '100%'
+    document.getElementById('StartSoundValue').textContent = '100%'
+    document.getElementById('CorrectSoundValue').textContent = '100%'
+    document.getElementById('WrongSoundValue').textContent = '100%'
+    document.getElementById('MaxPointsSoundValue').textContent = '100%'
+    document.getElementById('HighscoreSoundValue').textContent = '100%'
+    
+    let allSliders = document.querySelectorAll('#AudioContainer .RangeInput')
+    allSliders.forEach(slider => {
+        slider.value = 100
+    })
+    
+    let data = loadTerraCheckData()
+    data.audioVolumes = audioVolumes
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    
+    if(backgroundMusicElement) {
+        backgroundMusicElement.volume = 1
+    }
+}
+
+function loadAudioVolumes() { // Lade gespeicherte Audio-Lautstärken
+    let data = loadTerraCheckData()
+    if(data.audioVolumes) {
+        audioVolumes = data.audioVolumes
     }
 }
 
 function playStartSound() { // Starte Sound
     if(!audioAllowed) return
     let startSound = new Audio('./AUDIO/startSound.mp3')
+    startSound.volume = audioVolumes.startSound / 100
     startSound.play()
 }
 
 function playCorrectSound() { // Richtige Antwort Sound
     if(!audioAllowed) return
     let correctSound = new Audio('./AUDIO/answerCorrect.mp3')
+    correctSound.volume = audioVolumes.correctSound / 100
     correctSound.play()
 }
 
 function playWrongSound() { // Falsche Antwort Sound
     if(!audioAllowed) return
     let wrongSound = new Audio('./AUDIO/answerWrong.mp3')
+    wrongSound.volume = audioVolumes.wrongSound / 100
     wrongSound.play()
 }
 
 function playMaxPointsSound() { // Maximale Punkte Sound
     if(!audioAllowed) return
     let maxSound = new Audio('./AUDIO/maxPoints.mp3')
+    maxSound.volume = audioVolumes.maxPointsSound / 100
     maxSound.play()
 }
 
 function playHighscoreSound() { // Neuer Highscore Sound
     if(!audioAllowed) return
     let hsSound = new Audio('./AUDIO/newHighscore.mp3')
+    hsSound.volume = audioVolumes.highscoreSound / 100
     hsSound.play()
+}
+
+function playBackgroundMusic() { // Spiele Hintergrundmusik mit Loop
+    if(!audioAllowed || backgroundMusicPlaying) return
+    backgroundMusicElement = new Audio('./AUDIO/backgroundMusic.mp3')
+    backgroundMusicElement.volume = audioVolumes.backgroundMusic / 100
+    backgroundMusicElement.loop = true
+    backgroundMusicElement.play()
+    backgroundMusicPlaying = true
+}
+
+function stopBackgroundMusic() { // Stoppe Hintergrundmusik
+    if(backgroundMusicElement) {
+        backgroundMusicElement.pause()
+        backgroundMusicElement.currentTime = 0
+        backgroundMusicPlaying = false
+    }
+}
+
+function updateBackgroundMusicVolume() { // Aktualisiere Hintergrundmusik-Lautstärke
+    if(backgroundMusicElement) {
+        backgroundMusicElement.volume = audioVolumes.backgroundMusic / 100
+    }
 }
 
 function loadAudioPreference() { // Lade Audio-Einstellung
@@ -927,3 +1084,4 @@ function loadAudioPreference() { // Lade Audio-Einstellung
 loadTerraCheckData()
 applySavedBrightness()
 loadAudioPreference()
+loadAudioVolumes()
