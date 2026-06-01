@@ -11,7 +11,7 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
 
         moon.style.height = '10%'
         moon.style.top = '5%'
-        moon.style.left = '3%' 
+        moon.style.left = '3%'
     } else if(element == 'Options') { // Bewegung zu den Optionen
         earth.style.height = '40%'
         earth.style.top = '60%'
@@ -36,6 +36,7 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
         moon.style.height = '15%'
         moon.style.top = '7%'
         moon.style.left = '-3%' 
+
     } else if(element == 'GameScreen') {
         earth.style.height = '40%'
         earth.style.top = '75%'
@@ -269,7 +270,7 @@ function generateStudyData() {
                     </div>
                 </div>
                 
-            </section>
+            </section> 
             `
     }
 
@@ -651,8 +652,10 @@ function chooseAnswer(answer, index, elem) {
             finalPoints += (50-currentTop)*2;
 
             elem.style.color = "green"
+            playCorrectSound();
         } else {
             elem.style.color = "red"
+            playWrongSound();
 
             allAnswers.forEach((GameScreenChooseAnswer) => {
                 if(GameScreenChooseAnswer.textContent == gameAvailableArray[playArray[index][0]].name) {
@@ -667,8 +670,10 @@ function chooseAnswer(answer, index, elem) {
             finalPoints += (50-currentTop)*2; 
 
             elem.style.color = "green"
+            playCorrectSound();
         } else {
             elem.style.color = "red"
+            playWrongSound();
             
             allAnswers.forEach((GameScreenChooseAnswer) => {
                 if(GameScreenChooseAnswer.textContent == gameAvailableArray[playArray[index][0]].name) {
@@ -744,6 +749,7 @@ window.addEventListener("keydown", (e) => {
 
             clearInterval(timer);
             gameScreenInput.value = ""
+            playCorrectSound();
             
             if(currentIndex == finalAmount-1) {
                 gameScreenAnswerResult.style.visibility = "visible"
@@ -756,6 +762,7 @@ window.addEventListener("keydown", (e) => {
         } else {
             clearInterval(timer);
             gameScreenInput.value = ""
+            playWrongSound();
             
             if(currentIndex == finalAmount-1) {
                 gameScreenAnswerResult.style.visibility = "visible"
@@ -860,6 +867,63 @@ function saveFinalResult() { // Speichere das aktuelle Ergebnis in LocalStorage
     saveTerraCheckData(round)
 }
 
+/*********************************************************
+**********************************************************
+**********************AUDIO SYSTEM***********************
+**********************************************************
+*********************************************************/
+
+let audioAllowed = false;
+
+function allowAudio(allowed) { // Audio-Einstellung speichern
+    audioAllowed = allowed
+    let audioScreen = document.getElementById('AllowAudioScreen')
+    audioScreen.style.display = 'none'
+    
+    let data = loadTerraCheckData()
+    data.audioAllowed = allowed
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    
+    if(allowed) {
+        playStartSound()
+    }
+}
+
+function playStartSound() { // Starte Sound
+    if(!audioAllowed) return
+    let startSound = new Audio('./AUDIO/startSound.mp3')
+    startSound.play()
+}
+
+function playCorrectSound() { // Richtige Antwort Sound
+    if(!audioAllowed) return
+    let correctSound = new Audio('./AUDIO/answerCorrect.mp3')
+    correctSound.play()
+}
+
+function playWrongSound() { // Falsche Antwort Sound
+    if(!audioAllowed) return
+    let wrongSound = new Audio('./AUDIO/answerWrong.mp3')
+    wrongSound.play()
+}
+
+function playMaxPointsSound() { // Maximale Punkte Sound
+    if(!audioAllowed) return
+    let maxSound = new Audio('./AUDIO/maxPoints.mp3')
+    maxSound.play()
+}
+
+function playHighscoreSound() { // Neuer Highscore Sound
+    if(!audioAllowed) return
+    let hsSound = new Audio('./AUDIO/newHighscore.mp3')
+    hsSound.play()
+}
+
+function loadAudioPreference() { // Lade Audio-Einstellung
+    audioAllowed = false
+}
+
 // gespeicherte Daten und Helligkeit anwenden
 loadTerraCheckData()
 applySavedBrightness()
+loadAudioPreference()
