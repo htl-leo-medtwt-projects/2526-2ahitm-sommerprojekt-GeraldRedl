@@ -50,6 +50,8 @@ function movePlanets(element) { // Bewegung der Planeten bei Bildschirmwechsel
 }
 
 function showNextScreen(currentElement, nextElement) { // Bildschirmwechsel
+    playButtonClickSound()
+
     let currentE = document.getElementById(currentElement)
     let nextE = document.getElementById(nextElement)
 
@@ -123,6 +125,7 @@ function closeTutorial() {
 
 
 function generateOptionsVideo() { // Video-Einstellungen
+    playButtonClickSound()
     let optionsArea = document.getElementById('OptionsSetSetArea')
     let current = loadSetting('brightness') || 100
     optionsArea.innerHTML = `
@@ -177,6 +180,7 @@ function applySavedBrightness() { // Wende gespeicherte Helligkeit an
 }
 
 function generateOptionsAudio() { // Audio-Einstellungen
+    playButtonClickSound()
     let optionsArea = document.getElementById('OptionsSetSetArea')
     optionsArea.innerHTML = `
         <div style="padding:1vw;">
@@ -241,6 +245,15 @@ function generateOptionsAudio() { // Audio-Einstellungen
                                 </div>
                             </div>
                         </div>
+                        <div class="MapGroup">
+                            <button class="MapToggle" onclick="toggleSection('audio_buttonclick')">Button Klick</button>
+                            <div id="audio_buttonclick" class="PointsGroup" style="display:block;">
+                                <div class="PointsList">
+                                    <div class="AccountRound"><div class="RoundLeft">Lautstärke</div><div class="RoundRight"><span id="ButtonClickSoundValue">${audioVolumes.buttonClickSound}%</span></div></div>
+                                    <div class="AccountRound"><div class="RoundLeft">Regler</div><div class="RoundRight"><input class="RangeInput" type="range" min="0" max="100" step="1" value="${audioVolumes.buttonClickSound}" oninput="setAudioVolume('buttonClickSound', this.value)"></div></div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -248,6 +261,7 @@ function generateOptionsAudio() { // Audio-Einstellungen
 }
 
 function generateOptionsKonto() { // Konto-Einstellungen
+    playButtonClickSound()
     let optionsArea = document.getElementById('OptionsSetSetArea')
     // Konto-Bereich: zeigt gespeicherte Runden und Clear-Button
     let html = `
@@ -361,6 +375,7 @@ function generateLetterNavigation() { // Generiert Buchstaben-Navigationsbuttons
 }
 
 function filterByLetter(letter) { // Filtert Länder nach Anfangsbuchstabe
+    playButtonClickSound()
     currentFilter = letter
     let allBoxes = document.querySelectorAll('.Box')
     
@@ -443,6 +458,7 @@ let choosenMap = ""
 let alreadyRotated = false;
 let rotatedElement = -1;
 function generateGameModeOptions(element, index, map) { // Generiert per OnClick die jewiligen Optionen zum auswählen
+    playButtonClickSound()
     if(index != rotatedElement) {
         if(alreadyRotated) { // Dreht die Boxen in ihre Originalposition
             let allMaps = document.querySelectorAll('.GameModeMaps')
@@ -463,7 +479,7 @@ function generateGameModeOptions(element, index, map) { // Generiert per OnClick
         element.innerHTML += // Generiert die Auswahloptionen
             `
             <div id="GameModeOptions" data-aos="fade-right" data-aos-delay="500">
-                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 1)">ALLE</p> 
+                <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 'ALL')">ALLE</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 10)">10</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 20)">20</p>
                 <p class="GameModeOptionsAmount" onclick="chooseAmount(this, 30)">30</p>
@@ -479,7 +495,8 @@ function generateGameModeOptions(element, index, map) { // Generiert per OnClick
 let finalAmount = 0;
 let amountChoosen = false;
 function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
-    if(amountChoosen) { 
+    playButtonClickSound()
+    if(amountChoosen) {
         let allAmounts = document.querySelectorAll('.GameModeOptionsAmount')
         allAmounts.forEach((GameModeOptionsAmount) => {
             GameModeOptionsAmount.style.boxShadow = '0px 0px 0px'; // Zurücksetzen des Box-Shadows
@@ -487,7 +504,23 @@ function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
         amountChoosen = false;
     }
 
-    finalAmount = amount
+    if(amount === 'ALL') { // Zählt alle Länder des gewählten Kontinents
+        let countriesAmount = 0
+        for(let i = 0; i < countryData.length; i++) {
+            if(choosenMap == countryData[i].continent) {
+                countriesAmount++
+            }
+        }
+
+        if(choosenMap == 'World') {
+            countriesAmount = countryData.length
+        }
+
+        finalAmount = countriesAmount
+    } else {
+        finalAmount = amount
+    }
+
     element.style.boxShadow = "inset 0px 0px 15px red" // Setzen des Box-Shadows
     amountChoosen = true;
 }
@@ -495,6 +528,7 @@ function chooseAmount(element, amount) { // Auswahl der Anzahl an Aufgaben
 let finalGameMode = ""
 let gameModeChoosen = false;
 function chooseGameMode(element, gameMode) { // Auswahl des Spielmodus
+    playButtonClickSound()
     if(gameModeChoosen) {
         let allModes = document.querySelectorAll('.GameModeOptionsMode')
         allModes.forEach((GameModeOptionsMode) => {
@@ -590,6 +624,7 @@ function generateRandomNumbers() { // füllt den Array mit 9 Random Zahlen
 let finalInstruction = ""
 let instructionChoosen = false
 function chooseInstruction(element, instruction) { // Auswahl der Angabe
+    playButtonClickSound()
     if(instructionChoosen) {
         let allInstructions = document.querySelectorAll('.Instruction')
         allInstructions.forEach((Instruction) => {
@@ -606,6 +641,7 @@ function chooseInstruction(element, instruction) { // Auswahl der Angabe
 let finalSolution = ""
 let solutionChoosen = false
 function chooseSolution(element, solution) { // Auswahl der Lösung
+    playButtonClickSound()
     if(solutionChoosen) {
         let allSolutions = document.querySelectorAll('.Solution')
         allSolutions.forEach((Solution) => {
@@ -620,6 +656,7 @@ function chooseSolution(element, solution) { // Auswahl der Lösung
 }
 
 function startGame() {
+    playButtonClickSound()
     if(instructionChoosen && solutionChoosen) {
         generateIndividualMode(finalGameMode)
     }
@@ -754,6 +791,10 @@ function chooseAnswer(answer, index, elem) {
         gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
         saveFinalResult()
         finalPoints = 0
+
+        setTimeout(function() { // Zurück zum Hauptscreen nach 2s
+            showNextScreen('GameScreen', 'Homepage')
+        }, 2000)
     } else {
         setTimeout(function() {
             modeChoose(index+1)
@@ -819,6 +860,10 @@ window.addEventListener("keydown", (e) => {
                 gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
                 saveFinalResult()
                 finalPoints = 0
+
+                setTimeout(function() { // Zurück zum Hauptscreen nach 2s
+                    showNextScreen('GameScreen', 'Homepage')
+                }, 2000)
             } else {
                 modeChoose(currentIndex+1)
             }
@@ -832,6 +877,10 @@ window.addEventListener("keydown", (e) => {
                 gameScreenAnswerResult.innerHTML = `<p>Fertig!</p>`
                 saveFinalResult()
                 finalPoints = 0
+
+                setTimeout(function() { // Zurück zum Hauptscreen nach 2s
+                    showNextScreen('GameScreen', 'Homepage')
+                }, 2000)
             } else {
                 modeChoose(currentIndex+1)
             }
@@ -927,7 +976,27 @@ function saveFinalResult() { // Speichere das aktuelle Ergebnis in LocalStorage
         choosenMap: choosenMap,
         amount: finalAmount
     }
+
+    if(isNewHighscore()) { // Spiele Sound bei neuem Highscore
+        playHighscoreSound()
+    }
+
     saveTerraCheckData(round)
+}
+
+function isNewHighscore() { // Prüft ob ein neuer Highscore bei gleicher Map und Anzahl erreicht wurde
+    let data = loadTerraCheckData()
+    let bestPoints = 0
+
+    for(let i = 0; i < data.history.length; i++) {
+        if(data.history[i].choosenMap == choosenMap && data.history[i].amount == finalAmount && data.history[i].mode == finalGameMode) {
+            if(data.history[i].points > bestPoints) {
+                bestPoints = data.history[i].points
+            }
+        }
+    }
+
+    return finalPoints > bestPoints
 }
 
 /*********************************************************
@@ -945,11 +1014,13 @@ let audioVolumes = {
     wrongSound: 100,
     maxPointsSound: 100,
     highscoreSound: 100,
+    buttonClickSound: 100,
     backgroundMusic: 100
 }
 
 function allowAudio(allowed) { // Audio-Einstellung speichern
     audioAllowed = allowed
+    playButtonClickSound()
     let audioScreen = document.getElementById('AllowAudioScreen')
     audioScreen.style.display = 'none'
     
@@ -987,15 +1058,17 @@ function resetAudioVolumes() { // Setze alle Audio-Lautstärken zurück
         wrongSound: 100,
         maxPointsSound: 100,
         highscoreSound: 100,
+        buttonClickSound: 100,
         backgroundMusic: 100
     }
-    
+
     document.getElementById('BackgroundMusicValue').textContent = '100%'
     document.getElementById('StartSoundValue').textContent = '100%'
     document.getElementById('CorrectSoundValue').textContent = '100%'
     document.getElementById('WrongSoundValue').textContent = '100%'
     document.getElementById('MaxPointsSoundValue').textContent = '100%'
     document.getElementById('HighscoreSoundValue').textContent = '100%'
+    document.getElementById('ButtonClickSoundValue').textContent = '100%'
     
     let allSliders = document.querySelectorAll('#AudioContainer .RangeInput')
     allSliders.forEach(slider => {
@@ -1014,7 +1087,9 @@ function resetAudioVolumes() { // Setze alle Audio-Lautstärken zurück
 function loadAudioVolumes() { // Lade gespeicherte Audio-Lautstärken
     let data = loadTerraCheckData()
     if(data.audioVolumes) {
-        audioVolumes = data.audioVolumes
+        for(let key in data.audioVolumes) { // Behalte neue Standardwerte für noch nicht gespeicherte Sounds
+            audioVolumes[key] = data.audioVolumes[key]
+        }
     }
 }
 
@@ -1051,6 +1126,13 @@ function playHighscoreSound() { // Neuer Highscore Sound
     let hsSound = new Audio('./AUDIO/newHighscore.mp3')
     hsSound.volume = audioVolumes.highscoreSound / 100
     hsSound.play()
+}
+
+function playButtonClickSound() { // Button Klick Sound
+    if(!audioAllowed) return
+    let clickSound = new Audio('./AUDIO/buttonClick.mp3')
+    clickSound.volume = audioVolumes.buttonClickSound / 100
+    clickSound.play()
 }
 
 function playBackgroundMusic() { // Spiele Hintergrundmusik mit Loop

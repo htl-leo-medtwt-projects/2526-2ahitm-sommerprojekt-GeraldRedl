@@ -844,6 +844,25 @@ img {
     width: 30%;
     margin-left: 35%;
     margin-bottom: 3vw;
+
+    text-align: center;
+    padding: 0.5vw;
+
+    color: white;
+    font-family: Amoria;
+
+    background-color: #1a366d;
+    border: 0.2vw solid white;
+    outline: none;
+}
+
+#GameScreenInput::placeholder {
+    color: #ffffff99;
+}
+
+#GameScreenInput:focus {
+    background-color: #2a4f8a;
+    box-shadow: 0px 0px 15px white;
 }
 
 #GameScreenInputFlagArea {
